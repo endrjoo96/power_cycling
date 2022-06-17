@@ -4,8 +4,11 @@ import kotlin.random.Random
 
 class Room(val name: String) {
     constructor() : this("Room ${getNextInSequence()}")
+    init {
 
-    private val devices: MutableList<Device> = mutableListOf()
+    }
+
+    val devices: MutableList<Device> = mutableListOf()
     private var peopleCurrently = 0
     private var peopleBooked = 0
     private var roomCapacity = 1
@@ -17,7 +20,7 @@ class Room(val name: String) {
 
         println("--- Devices in current usage:")
         devices.forEach {
-            powerConsumption += it.requiredPower()
+            powerConsumption += it.getCurrentPowerConsumption()
             if (it.enabled) println("------- ${it.name}")
         }
 
@@ -84,6 +87,8 @@ class Room(val name: String) {
 
     fun unbookRoom() {
         peopleBooked = 0
+        peopleCurrently = 0
+
     }
 
     fun insertDevice(device: Device) {

@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.nakolanie.powercycling.*
 import com.nakolanie.powercycling.Helpers.Companion.roundToDecimalAsString
+import com.nakolanie.powercycling.back.Engine
 import com.nakolanie.powercycling.back.TickEngine
 import kotlinx.android.synthetic.main.activity_game.*
 
@@ -18,20 +19,27 @@ class GameActivity : AppCompatActivity() {
 
     private val PROGRESSBAR_TICK_ENGINE = "progressbar"
     private val GAME_EVENTS_TICK_ENGINE = "gameEvents"
+    private val TAP_ENGINE = "tap"
 
     private val tickEngines: Map<String, TickEngine> = mapOf(
         Pair(PROGRESSBAR_TICK_ENGINE, TickEngine(PROGRESSBAR_TICK_ENGINE)),
         Pair(GAME_EVENTS_TICK_ENGINE, TickEngine(GAME_EVENTS_TICK_ENGINE))
     )
 
+    private val engines: Map<String, Engine> = mapOf(
+        Pair(TAP_ENGINE, Engine(TAP_ENGINE))
+    )
+
     private lateinit var cycler: Cycler
     val rooms: MutableList<Room> = mutableListOf(
         Room().apply {
             this.insertDevice(Device("Microwave", EfficiencyClass.D, 0.9f))
-            this.insertDevice(Device("Electric kettle", EfficiencyClass.A, 1f))
+            this.insertDevice(Device("Electric kettle", EfficiencyClass.C, 2.2f, enabledByMaxTicks = 2))
+            this.insertDevice(Device("Vacuum cleaner", EfficiencyClass.B, 1.7f, enabledByMaxTicks = 4))
             this.insertDevice(Device("TV", EfficiencyClass.B, 0.2f))
             this.insertDevice(Device("Desktop computer", EfficiencyClass.C, 0.5f))
-            this.insertDevice(Device("LED light bulb", EfficiencyClass.Ap, 0.005f))
+            this.insertDevice(Device("LED light bulb", EfficiencyClass.Ap, 0.01f))
+            this.insertDevice(Device("Laptop", EfficiencyClass.B, 0.07f, isOwnedByPlayer = false))
             this.upgradeMaxPeopleCount(2)
             this.bookRoom(3)
         })
@@ -54,6 +62,7 @@ class GameActivity : AppCompatActivity() {
         setupMessages()
         setupCycler()
         setupTickEngines()
+        setupEngines()
     }
 
     @SuppressLint("SetTextI18n")
@@ -70,7 +79,7 @@ class GameActivity : AppCompatActivity() {
     private fun setupTickEngines() {
         tickEngines[PROGRESSBAR_TICK_ENGINE]!!.also {
             it.tickInterval = 100
-            it.tickExecutionEvent = {
+            it.setMethod {
                 if (this.gameActivity_progressBar.progress > 0) {
                     this.gameActivity_progressBar.progress -= ProgressBarConverter.convertConsumption(
                         currentBarConsumption
@@ -81,8 +90,8 @@ class GameActivity : AppCompatActivity() {
             }
         }
         tickEngines[GAME_EVENTS_TICK_ENGINE]!!.also {
-            it.tickInterval = 4000
-            it.tickExecutionEvent = {
+            it.tickInterval = 2500
+            it.setMethod {
                 currentBarConsumption = energyDemandGovernor.getNextDemand()
                 this.gameActivity_textView_currentEnergyDemand.text =
                     "${currentBarConsumption.roundToDecimalAsString(3)} kW"
@@ -92,31 +101,38 @@ class GameActivity : AppCompatActivity() {
         this.gameActivity_progressBar.progress = 20000
     }
 
+    private fun setupEngines() {
+        engines[TAP_ENGINE]!!.setMethod {
+            if (!tickEngines[PROGRESSBAR_TICK_ENGINE]!!.paused) {
+                this.gameActivity_progressBar.progress += Config.TAP_POWER
+                cycler.cycle()
+            }
+        }
+    }
+
     private fun run() {
-        tickEngines.forEach { _, tickEngine -> tickEngine.start() }
+        tickEngines.forEach { (_, tickEngine) -> tickEngine.start() }
     }
 
     private fun pause() {
-        tickEngines.forEach { _, tickEngine -> tickEngine.pause() }
+        tickEngines.forEach { (_, tickEngine) -> tickEngine.pause() }
 
     }
 
     private fun resume() {
-        tickEngines.forEach { _, tickEngine -> tickEngine.resume() }
+        tickEngines.forEach { (_, tickEngine) -> tickEngine.resume() }
 
     }
 
     override fun onStop() {
-        tickEngines.forEach { _, tickEngine -> tickEngine.stop() }
+        tickEngines.forEach { (_, tickEngine) -> tickEngine.stop() }
 
         super.onStop()
     }
 
     fun onScreenTap(v: View) {
-        if (!tickEngines[PROGRESSBAR_TICK_ENGINE]!!.paused) {
-            this.gameActivity_progressBar.progress += Config.TAP_POWER
-            cycler.cycle()
-        }
+        engines[TAP_ENGINE]!!.executeMethod()
+
     }
 
     fun onRoomButtonClick(v: View) {

@@ -1,5 +1,7 @@
 package com.nakolanie.powercycling
 
+import com.nakolanie.powercycling.Helpers.Companion.roundToDecimal
+
 /**
  * efficiencyClass: class of device efficiency
  * electricityDemand: electricity demand in kW
@@ -8,22 +10,42 @@ class Device(
     val name: String,
     efficiencyClass: EfficiencyClass,
     val electricityDemand: Float,
-    val isOwnedByPlayer: Boolean = true
+    val enabledByMaxTicks: Int = 0,
+    val isOwnedByPlayer: Boolean = true,
 ) {
 
     var efficiencyClass = efficiencyClass
-    private set
+        private set
 
     var enabled: Boolean = false
+        set(value) {
+            enabledByTicks = 0
+            field = value
+        }
+    private var enabledByTicks: Int = 0
+    private val measureTicks: Boolean = enabledByMaxTicks > 0
 
-    fun requiredPower(): Float {
+    /**
+     * Returns power, if device is enabled
+     */
+    fun getCurrentPowerConsumption(): Float {
         if (!enabled) return 0f
-        return efficiencyClass.value * electricityDemand
+        val consumption = getPowerConsumption()
+        if (measureTicks) {
+            enabledByTicks++
+            if (enabledByTicks >= enabledByMaxTicks) {
+                enabledByTicks = 0
+                enabled = false
+            }
+        }
+        return consumption
     }
 
-    fun switch() {
-        enabled = !enabled
-    }
+    /**
+     * Returns power consumption. It omits device "enabled" check, so use only for information purposes
+     */
+    fun getPowerConsumption(): Float = (efficiencyClass.value * electricityDemand).roundToDecimal(3)
+
 
     fun upgradeEfficiencyClass() {
         if (efficiencyClass != EfficiencyClass.Appp) {
@@ -32,16 +54,4 @@ class Device(
             ]
         }
     }
-}
-
-enum class EfficiencyClass(val value: Int) {
-    F(9),
-    E(8),
-    D(7),
-    C(6),
-    B(5),
-    A(4),
-    Ap(3),
-    App(2),
-    Appp(1),
 }

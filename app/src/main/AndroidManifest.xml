@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".front.game.Game_ManageDevice"
+            android:exported="false" />
+        <activity
+            android:name=".front.game.Game_ManageRoom"
+            android:exported="false" />
+        <activity
             android:name=".front.game.GameActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"

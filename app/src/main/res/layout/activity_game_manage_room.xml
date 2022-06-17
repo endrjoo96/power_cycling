@@ -4,10 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".front.game.Game_RoomsManagementActivity">
+    tools:context=".front.game.Game_ManageRoom">
+
+    <TextView
+        android:id="@+id/manageRoom_textView_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pokój"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/manageRoom_button_return"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/manageRoom_button_return"
+        app:layout_constraintTop_toTopOf="@+id/manageRoom_button_return" />
 
     <Button
-        android:id="@+id/roomManagement_button_return"
+        android:id="@+id/manageRoom_button_return"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -21,28 +32,15 @@
         android:layout_width="409dp"
         android:layout_height="673dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/roomManagement_button_return">
+        app:layout_constraintTop_toBottomOf="@+id/manageRoom_button_return">
 
         <LinearLayout
-            android:id="@+id/roomManagement_linearLayout_roomsList"
+            android:id="@+id/manageRoom_linearLayout_devicesList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
     </ScrollView>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pokoje"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/roomManagement_button_return"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/roomManagement_button_return"
-        app:layout_constraintTop_toTopOf="@+id/roomManagement_button_return" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

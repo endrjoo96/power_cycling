@@ -25,19 +25,27 @@ class Game_RoomsManagementActivity : AppCompatActivity() {
 
     private fun addRoomsToScrollView() {
         roomManagement_linearLayout_roomsList.removeAllViews()
-        rooms.forEach {
-            val button = Button(this)
-            button.setText(it.name)
-            roomManagement_linearLayout_roomsList.addView(button)
+        rooms.forEachIndexed { index, room ->
+            run {
+                val button = Button(this)
+                button.setText(room.name)
+                button.setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(p0: View?) {
+                        p0?.let { openRoomSettings(index) }
+                    }
+
+                })
+                roomManagement_linearLayout_roomsList.addView(button)
+            }
         }
         val button = Button(this)
         button.setText("+ nowy pokój")
-        button.setOnClickListener( object: View.OnClickListener {
+        button.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                p0?.let { onNewRoom(it) }
+                p0?.let { onNewRoom() }
             }
 
-        } )
+        })
         roomManagement_linearLayout_roomsList.addView(button)
     }
 
@@ -46,7 +54,13 @@ class Game_RoomsManagementActivity : AppCompatActivity() {
         this.finish()
     }
 
-    fun onNewRoom(v: View) {
+    fun openRoomSettings(index: Int) {
+        val newRoomIntent = Intent(this, Game_ManageRoom::class.java)
+        newRoomIntent.putExtra("roomIndex", index)
+        startActivity(newRoomIntent)
+    }
+
+    fun onNewRoom() {
         rooms.add(Room().apply {
             this.insertDevice(Device("Microwave", EfficiencyClass.D, 0.9f))
             this.insertDevice(Device("Electric kettle", EfficiencyClass.A, 1f))

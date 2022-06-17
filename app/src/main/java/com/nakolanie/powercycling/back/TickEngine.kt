@@ -1,22 +1,17 @@
 package com.nakolanie.powercycling.back
 
 import kotlinx.coroutines.*
-import java.time.LocalDateTime
-import java.time.LocalTime
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class TickEngine(
-    private val engineName: String = "unnamedEngine",
-    private val coroutinesExecutionContext: CoroutineContext,
+    engineName: String = "unnamedEngine",
+    coroutinesExecutionContext: CoroutineContext = Dispatchers.Main,
     var tickInterval: Long = 2000
-) {
-    constructor(engineName: String) : this(engineName, Dispatchers.Main)
+) : Engine(engineName, coroutinesExecutionContext) {
 
     private lateinit var timer: Timer
     private lateinit var task: TimerTask
-    var tickExecutionEvent: () -> Unit =
-        { println("TickEngine $engineName error: Not set tick function.") }
 
     private var timeRemaining: Long = tickInterval
     var started = false
@@ -27,7 +22,6 @@ class TickEngine(
 
     init {
         timeRemaining = tickInterval
-        println("TickEngine $engineName created")
     }
 
     fun start(timeToFirstExecution: Long = tickInterval) {
@@ -36,11 +30,7 @@ class TickEngine(
         timer = Timer()
         task = object : TimerTask() {
             override fun run() {
-                CoroutineScope(coroutinesExecutionContext).launch {
-//                    println("@@@@ ${engineName} >>> Uruchomiono po ${System.currentTimeMillis() - lastExecutedTaskTimestamp} ms")
-                    tickExecutionEvent()
-//                    lastExecutedTaskTimestamp = System.currentTimeMillis()
-                }
+                executeMethod()
             }
         }
         timer.scheduleAtFixedRate(task, timeToFirstExecution, tickInterval)
