@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gameActivity_constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:onClick="onScreenTap"
+    tools:context=".front.game.GameActivity">
+
+    <TextView
+        android:id="@+id/gameActivity_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="Zapotrzebowanie na prąd:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameActivity_progressBar"
+        app:layout_constraintVertical_bias="0.072" />
+
+    <ProgressBar
+        android:id="@+id/gameActivity_progressBar"
+        style="@style/WideProgressBar"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:max="20"
+        android:progress="10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/gameActivity_imageView_character"
+        android:layout_width="400dp"
+        android:layout_height="240dp"
+        android:src="@mipmap/rower_jazda_szybko_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.55" />
+
+    <TextView
+        android:id="@+id/gameActivity_textView_currentEnergyDemand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="NaN"
+        android:textSize="36dp"
+        app:layout_constraintEnd_toEndOf="@+id/gameActivity_textView"
+        app:layout_constraintStart_toStartOf="@+id/gameActivity_textView"
+        app:layout_constraintTop_toBottomOf="@+id/gameActivity_textView" />
+
+    <Button
+        android:id="@+id/gameActivity_button_rooms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onRoomButtonClick"
+        android:text="Pokoje"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameActivity_progressBar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
