@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:onClick="onScreenTap"
+    android:onClick="onGameScreenTap"
     tools:context=".front.game.GameActivity">
 
     <TextView
@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameActivity_progressBar"
-        app:layout_constraintVertical_bias="0.072" />
+        app:layout_constraintVertical_bias="0.196" />
 
     <ProgressBar
         android:id="@+id/gameActivity_progressBar"
@@ -50,7 +50,7 @@
         android:id="@+id/gameActivity_textView_currentEnergyDemand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="NaN"
         android:textSize="36dp"
         app:layout_constraintEnd_toEndOf="@+id/gameActivity_textView"
@@ -65,5 +65,57 @@
         android:text="Pokoje"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameActivity_progressBar" />
+
+    <TextView
+        android:id="@+id/gameActivity_textView_wallet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="1234"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameActivity_progressBar" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:text="$"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/gameActivity_textView_wallet"
+        app:layout_constraintEnd_toStartOf="@+id/gameActivity_textView_wallet"
+        app:layout_constraintTop_toTopOf="@+id/gameActivity_textView_wallet" />
+
+    <Button
+        android:id="@+id/gameActivity_button_reception"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recepcja"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameActivity_progressBar" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/gameActivity_button_reception"
+        app:layout_constraintStart_toStartOf="@+id/gameActivity_button_reception"
+        app:layout_constraintTop_toBottomOf="@+id/gameActivity_button_reception">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="W recepcji: " />
+
+        <TextView
+            android:id="@+id/gameActivity_textView_receptionQueueSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NaN" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

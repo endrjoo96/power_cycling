@@ -9,19 +9,30 @@ import com.nakolanie.powercycling.Device
 import com.nakolanie.powercycling.EfficiencyClass
 import com.nakolanie.powercycling.R
 import com.nakolanie.powercycling.Room
+import com.nakolanie.powercycling.extensions.GameAppCompatActivity
 import kotlinx.android.synthetic.main.activity_game__rooms_management.*
+import kotlin.math.pow
 
 
-class Game_RoomsManagementActivity : AppCompatActivity() {
-    private val rooms: MutableList<Room> = GameActivity.GET_CONTEXT().rooms
+class Game_RoomsManagementActivity : GameAppCompatActivity() {
+    private val rooms: MutableList<Room> = GameActivity.GetContext().rooms
+    private var newRoomCost: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_game__rooms_management)
 
+        calculateNewRoomCost()
         addRoomsToScrollView()
     }
+
+    private fun calculateNewRoomCost() {
+        newRoomCost = if (rooms.size == 1) 150
+        else {
+            (35 * (rooms.size - 1).toDouble().pow(2.toDouble()) + 200).toInt()
+        }
+    }
+    // 150, 235, 340
 
     private fun addRoomsToScrollView() {
         roomManagement_linearLayout_roomsList.removeAllViews()
@@ -39,7 +50,8 @@ class Game_RoomsManagementActivity : AppCompatActivity() {
             }
         }
         val button = Button(this)
-        button.setText("+ nowy pokój")
+        button.setText("+ nowy pokój ($${newRoomCost})")
+        button.isEnabled = GameActivity.GetContext().wallet.isEnough(newRoomCost)
         button.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 p0?.let { onNewRoom() }
@@ -49,11 +61,6 @@ class Game_RoomsManagementActivity : AppCompatActivity() {
         roomManagement_linearLayout_roomsList.addView(button)
     }
 
-    fun onBack(v: View) {
-        setResult(100)
-        this.finish()
-    }
-
     fun openRoomSettings(index: Int) {
         val newRoomIntent = Intent(this, Game_ManageRoom::class.java)
         newRoomIntent.putExtra("roomIndex", index)
@@ -61,15 +68,11 @@ class Game_RoomsManagementActivity : AppCompatActivity() {
     }
 
     fun onNewRoom() {
-        rooms.add(Room().apply {
-            this.insertDevice(Device("Microwave", EfficiencyClass.D, 0.9f))
-            this.insertDevice(Device("Electric kettle", EfficiencyClass.A, 1f))
-            this.insertDevice(Device("TV", EfficiencyClass.B, 0.2f))
-            this.insertDevice(Device("Desktop computer", EfficiencyClass.C, 0.5f))
-            this.insertDevice(Device("LED light bulb", EfficiencyClass.Ap, 0.005f))
-            this.upgradeMaxPeopleCount(2)
-            this.bookRoom(3)
-        })
-        addRoomsToScrollView()
+        if (GameActivity.GetContext().wallet.isEnough(newRoomCost)) {
+            rooms.add(Room())
+            GameActivity.GetContext().wallet.pay(newRoomCost)
+            calculateNewRoomCost()
+            addRoomsToScrollView()
+        }
     }
 }

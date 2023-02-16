@@ -6,9 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.nakolanie.powercycling.Device
 import com.nakolanie.powercycling.R
 import com.nakolanie.powercycling.Room
+import com.nakolanie.powercycling.extensions.GameAppCompatActivity
 import kotlinx.android.synthetic.main.activity_game_manage_device.*
 
-class Game_ManageDevice : AppCompatActivity() {
+class Game_ManageDevice : GameAppCompatActivity() {
     private lateinit var device: Device
     private lateinit var room: Room
 
@@ -18,7 +19,7 @@ class Game_ManageDevice : AppCompatActivity() {
         val roomIndex: Int = intent.extras!!.getInt("roomIndex")
         val deviceIndex: Int = intent.extras!!.getInt("deviceIndex")
 
-        room = GameActivity.GET_CONTEXT().rooms[roomIndex]
+        room = GameActivity.GetContext().rooms[roomIndex]
         device = room.devices[deviceIndex]
         refresh()
     }
@@ -41,7 +42,4 @@ class Game_ManageDevice : AppCompatActivity() {
         refresh()
     }
 
-    fun onBack(v: View) {
-        this.finish()
-    }
 }

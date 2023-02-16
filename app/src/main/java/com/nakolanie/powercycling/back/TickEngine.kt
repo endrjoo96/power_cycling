@@ -35,7 +35,7 @@ class TickEngine(
         }
         timer.scheduleAtFixedRate(task, timeToFirstExecution, tickInterval)
         started = true
-        println("TickEngine $engineName started")
+        println("$engineType $engineName started")
     }
 
     fun stop(showMessage: Boolean = true) {
@@ -43,7 +43,7 @@ class TickEngine(
         timer.cancel()
         timer.purge()
         started = false
-        if (showMessage) println("TickEngine $engineName stopped")
+        if (showMessage) println("$engineType $engineName stopped")
     }
 
     fun pause() {
@@ -51,8 +51,7 @@ class TickEngine(
             timeRemaining = getTimeToNextExecution()
             stop(false)
             paused = true
-            println("TickEngine $engineName paused")
-            println("timeRemaining: ${timeRemaining}")
+            println("$engineType $engineName paused")
         }
     }
 
@@ -60,7 +59,7 @@ class TickEngine(
         if (!started && paused) {
             start(timeRemaining)
             paused = false
-            println("TickEngine $engineName resumed")
+            println("$engineType $engineName resumed")
         }
 
     }

@@ -1,150 +1,110 @@
 package com.nakolanie.powercycling.front.game
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.nakolanie.powercycling.*
 import com.nakolanie.powercycling.Helpers.Companion.roundToDecimalAsString
-import com.nakolanie.powercycling.back.Engine
+import com.nakolanie.powercycling.back.GameContext
 import com.nakolanie.powercycling.back.TickEngine
+import com.nakolanie.powercycling.extensions.GameAppCompatActivity
 import kotlinx.android.synthetic.main.activity_game.*
+import kotlin.properties.Delegates
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KClass
 
-class GameActivity : AppCompatActivity() {
+class GameActivity : GameAppCompatActivity() {
     companion object {
-        private lateinit var CURRENT_GAME_CONTEXT: GameActivity
-        fun GET_CONTEXT() = CURRENT_GAME_CONTEXT
+        private var CURRENT_GAME_CONTEXT: GameContext? = null
+        fun GetContext() = CURRENT_GAME_CONTEXT!!
     }
 
-    private val PROGRESSBAR_TICK_ENGINE = "progressbar"
-    private val GAME_EVENTS_TICK_ENGINE = "gameEvents"
-    private val TAP_ENGINE = "tap"
-
-    private val tickEngines: Map<String, TickEngine> = mapOf(
-        Pair(PROGRESSBAR_TICK_ENGINE, TickEngine(PROGRESSBAR_TICK_ENGINE)),
-        Pair(GAME_EVENTS_TICK_ENGINE, TickEngine(GAME_EVENTS_TICK_ENGINE))
+    private val delegatesMap: Map<DELEGATE, ReadWriteProperty<Any?, *>> = mapOf(
+        Pair(DELEGATE.PROGRESS_UPDATE,
+            Delegates.observable(Config.START_PROGRESSBAR_VALUE) { _, _, newValue ->
+                this.gameActivity_progressBar.progress = newValue
+            }),
+        Pair(DELEGATE.ENERGY_CONSUMPTION,
+            Delegates.observable("") { _, _, newValue ->
+                this.gameActivity_textView_currentEnergyDemand.text = newValue
+            }),
+        Pair(DELEGATE.CYCLER_STATE,
+            Delegates.observable(CyclerState.CYCLE_FAST_1) { _, _, newValue ->
+                Helpers.setImageResourceFromBitmap(
+                    this,
+                    gameActivity_imageView_character,
+                    newValue.mipmapPath
+                )
+            }),
+        Pair(DELEGATE.WALLET_CHANGE,
+            Delegates.observable(100f) { _, _, newValue ->
+                this.gameActivity_textView_wallet.text = newValue.roundToDecimalAsString(2)
+            }),
+        Pair(DELEGATE.QUEUE_STATE,
+            Delegates.observable(0) { _, _, newValue ->
+                this.gameActivity_textView_receptionQueueSize.text = newValue.toString()
+            })
     )
 
-    private val engines: Map<String, Engine> = mapOf(
-        Pair(TAP_ENGINE, Engine(TAP_ENGINE))
-    )
-
-    private lateinit var cycler: Cycler
-    val rooms: MutableList<Room> = mutableListOf(
-        Room().apply {
-            this.insertDevice(Device("Microwave", EfficiencyClass.D, 0.9f))
-            this.insertDevice(Device("Electric kettle", EfficiencyClass.C, 2.2f, enabledByMaxTicks = 2))
-            this.insertDevice(Device("Vacuum cleaner", EfficiencyClass.B, 1.7f, enabledByMaxTicks = 4))
-            this.insertDevice(Device("TV", EfficiencyClass.B, 0.2f))
-            this.insertDevice(Device("Desktop computer", EfficiencyClass.C, 0.5f))
-            this.insertDevice(Device("LED light bulb", EfficiencyClass.Ap, 0.01f))
-            this.insertDevice(Device("Laptop", EfficiencyClass.B, 0.07f, isOwnedByPlayer = false))
-            this.upgradeMaxPeopleCount(2)
-            this.bookRoom(3)
-        })
-
-    private val energyDemandGovernor: EnergyDemandGovernor = EnergyDemandGovernor(rooms)
-
-    val initialBarConsumption = energyDemandGovernor.getCurrentDemand()
-    var currentBarConsumption = initialBarConsumption
+    private val progressUpdateDelegate =
+        Delegates.observable(Config.START_PROGRESSBAR_VALUE) { _, _, newValue ->
+            this.gameActivity_progressBar.progress = newValue
+        }
+    private val energyConsumptionDelegate = Delegates.observable("") { _, _, newValue ->
+        this.gameActivity_textView_currentEnergyDemand.text = newValue
+    }
+    private val cyclerStateDelegate =
+        Delegates.observable(CyclerState.CYCLE_FAST_1) { _, _, newValue ->
+            Helpers.setImageResourceFromBitmap(
+                this,
+                gameActivity_imageView_character,
+                newValue.mipmapPath
+            )
+        }
+    private val walletChangeDelegate = Delegates.observable(100f) { _, _, newValue ->
+        this.gameActivity_textView_wallet.text = newValue.roundToDecimalAsString(2)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        CURRENT_GAME_CONTEXT = this
         setContentView(R.layout.activity_game)
-        setup()
-        run()
-    }
-
-    private fun setup() {
+        gameActivity_progressBar.max = Config.MAX_PROGRESSBAR_VALUE
         this.gameActivity_constraintLayout.isSoundEffectsEnabled = false
-        setupMessages()
-        setupCycler()
-        setupTickEngines()
-        setupEngines()
+
+        CURRENT_GAME_CONTEXT = GameContext(
+            Config.MAX_PROGRESSBAR_VALUE,
+            finishMethod = { finish() },
+            delegatesMap
+        )
+        gameActivity_textView_wallet.text = GetContext().wallet.check().roundToDecimalAsString(2)
+        GetContext().setup()
+        GetContext().run()
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun setupMessages() {
-        this.gameActivity_textView_currentEnergyDemand.text =
-            "${currentBarConsumption.roundToDecimalAsString(3)} kW"
+    override fun onDestroy() {
+        GetContext().stop()
+        clearContext()
+        super.onDestroy()
     }
 
-    private fun setupCycler() {
-        cycler = Cycler(this, this.gameActivity_imageView_character)
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun setupTickEngines() {
-        tickEngines[PROGRESSBAR_TICK_ENGINE]!!.also {
-            it.tickInterval = 100
-            it.setMethod {
-                if (this.gameActivity_progressBar.progress > 0) {
-                    this.gameActivity_progressBar.progress -= ProgressBarConverter.convertConsumption(
-                        currentBarConsumption
-                    )
-                } else {
-                    finish()
-                }
-            }
-        }
-        tickEngines[GAME_EVENTS_TICK_ENGINE]!!.also {
-            it.tickInterval = 2500
-            it.setMethod {
-                currentBarConsumption = energyDemandGovernor.getNextDemand()
-                this.gameActivity_textView_currentEnergyDemand.text =
-                    "${currentBarConsumption.roundToDecimalAsString(3)} kW"
-            }
-        }
-        this.gameActivity_progressBar.max = 40000
-        this.gameActivity_progressBar.progress = 20000
-    }
-
-    private fun setupEngines() {
-        engines[TAP_ENGINE]!!.setMethod {
-            if (!tickEngines[PROGRESSBAR_TICK_ENGINE]!!.paused) {
-                this.gameActivity_progressBar.progress += Config.TAP_POWER
-                cycler.cycle()
-            }
-        }
-    }
-
-    private fun run() {
-        tickEngines.forEach { (_, tickEngine) -> tickEngine.start() }
-    }
-
-    private fun pause() {
-        tickEngines.forEach { (_, tickEngine) -> tickEngine.pause() }
-
-    }
-
-    private fun resume() {
-        tickEngines.forEach { (_, tickEngine) -> tickEngine.resume() }
-
-    }
-
-    override fun onStop() {
-        tickEngines.forEach { (_, tickEngine) -> tickEngine.stop() }
-
-        super.onStop()
-    }
-
-    fun onScreenTap(v: View) {
-        engines[TAP_ENGINE]!!.executeMethod()
-
-    }
-
-    fun onRoomButtonClick(v: View) {
-        pause()
-        val newIntent = Intent(this, Game_RoomsManagementActivity::class.java)
-        startActivityForResult(newIntent, 100)
+    private fun clearContext() {
+        CURRENT_GAME_CONTEXT = null
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100 && resultCode == 100) {
-            resume()
+            GetContext().resume()
         }
     }
+}
+
+enum class DELEGATE(val assignedClass: KClass<*>) {
+    PROGRESS_UPDATE(Int::class),
+    ENERGY_CONSUMPTION(String::class),
+    CYCLER_STATE(CyclerState::class),
+    WALLET_CHANGE(Float::class),
+    QUEUE_STATE(Int::class);
+
 }

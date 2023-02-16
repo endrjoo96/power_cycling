@@ -1,0 +1,13 @@
+Przychodzący goście mają swoje preferencje odnośnie wyposażenia pokoju, każdy stopień poniżej oczekiwań to -10%, a powyżej +10%
+
+jeśli by użyć urządzeń jako kategorii, np. DEVICE.TV oraz klasyfikacji energetycznej, można stworzyć
+metodę zwracającą nazwę urządzenia w oparciu o energochłonność, np:
+    - DEVICE.TV, EFFICIENCY_CLASS.F -> "Telewizor CRT"
+    - DEVICE.TV, EFFICIENCY_CLASS.C -> "Telewizor plazmowy"
+    - DEVICE.TV, EFFICIENCY_CLASS.A -> "Telewizor LCD"
+    albo
+    - DEVICE.LIGHT_BULB, EFFICIENCY_CLASS.F -> "Żarówka żarowa"
+    - DEVICE.LIGHT_BULB, EFFICIENCY_CLASS.C -> "Świetlówka"
+    - DEVICE.LIGHT_BULB, EFFICIENCY_CLASS.Ap -> "Żarówka LED"
+
+

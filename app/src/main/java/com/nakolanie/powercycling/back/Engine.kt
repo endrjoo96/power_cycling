@@ -9,11 +9,13 @@ open class Engine(
     protected val engineName: String = "unnamedEngine",
     private val coroutinesExecutionContext: CoroutineContext = Dispatchers.Main
 ) {
+    protected lateinit var engineType: String
     protected var executionMethod: () -> Unit =
-        { println("${this::class} $engineName: Not set tick method.") }
+        { println("$engineType $engineName: Not set tick method.") }
 
     init {
-        println("${this::class} $engineName created")
+        engineType = this::class.simpleName.toString()
+        println("$engineType $engineName created")
     }
 
     fun setMethod(method: () -> Unit) {

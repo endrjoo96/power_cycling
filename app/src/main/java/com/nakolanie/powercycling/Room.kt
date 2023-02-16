@@ -1,12 +1,10 @@
 package com.nakolanie.powercycling
 
+import java.util.stream.Collectors
 import kotlin.random.Random
 
 class Room(val name: String) {
     constructor() : this("Room ${getNextInSequence()}")
-    init {
-
-    }
 
     val devices: MutableList<Device> = mutableListOf()
     private var peopleCurrently = 0
@@ -64,31 +62,53 @@ class Room(val name: String) {
         }
     }
 
-    fun upgradeMaxPeopleCount() {
-        upgradeMaxPeopleCount(1)
+    fun expandMaxPeople() {
+        roomCapacity++
     }
 
-    fun upgradeMaxPeopleCount(by: Int) {
-        roomCapacity += by
-    }
-
-    fun bookRoom(numberOfPeople: Int) {
-        if (isBookable(numberOfPeople)) {
-            peopleBooked = numberOfPeople
-            peopleCurrently = numberOfPeople
+    fun bookRoom(queueBundle: QueueBundle) {
+        if (isBookable(queueBundle)) {
+            peopleBooked = queueBundle.bundleSize
+            peopleCurrently = queueBundle.bundleSize
         }
     }
 
-    fun isBookable(numberOfPeople: Int): Boolean {
+    fun isBookable(queueBundle: QueueBundle): Boolean {
         return peopleBooked == 0
                 && peopleCurrently == 0
-                && numberOfPeople <= roomCapacity
+                && queueBundle.bundleSize <= roomCapacity
+                && meetsMinimalRequirements(queueBundle.minimalDevicesRequirements)
+    }
+
+    private fun meetsMinimalRequirements(minimalDevicesRequirements: List<Device>): Boolean {
+        // utworzyć listę urzadzeń, które są zainstalowane i spełniają wymagania
+        //potrzebne do upewnienia się, że jedno urządzenie nie będzie powtarzane
+        //posortować listę wymagań - złączyć podobne urządzenia i posortować po jakości (od najgorszego)
+        // porównać z obecnymi urządzeniami (allmatch na typ urządzenia, wybrac najgorsze jakościowo, które pasuje)
+
+        val correctDevices: MutableList<Device> = mutableListOf()
+        val requirements = minimalDevicesRequirements.sortedBy { device -> device.quality }
+
+        for (requirement in requirements) {
+            val matchingDevice = devices.stream()
+                .filter { device ->
+                    device.name == requirement.name &&
+                            !correctDevices.contains(device)
+                }
+                .collect(Collectors.toList()).sortedBy { device -> device.quality }
+                .stream().filter { device -> device.quality >= requirement.quality }
+                .findFirst()
+            if (!matchingDevice.isPresent) {
+                return false
+            }
+            correctDevices.add(matchingDevice.get())
+        }
+        return true
     }
 
     fun unbookRoom() {
         peopleBooked = 0
         peopleCurrently = 0
-
     }
 
     fun insertDevice(device: Device) {
@@ -100,6 +120,7 @@ class Room(val name: String) {
         private fun getNextInSequence(): Int {
             return ROOM_SEQUENCE++
         }
+
         fun resetRoomSequence() {
             ROOM_SEQUENCE = 1
         }
