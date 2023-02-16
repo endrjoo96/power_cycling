@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".front.game.Game_QueueManagementActivity">
-    
+
     <Button
         android:id="@+id/queueManagement_button_return"
         android:layout_width="wrap_content"
@@ -17,22 +17,61 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:layout_width="409dp"
-        android:layout_height="673dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/queueManagement_inner_constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/queueManagement_button_return">
 
-        <LinearLayout
-            android:id="@+id/queueManagement_linearLayout_roomsList"
-            android:layout_width="match_parent"
+
+        <ScrollView
+            android:id="@+id/queueManagement_queue_scrollView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/queueManagement_guideline"
+            app:layout_constraintStart_toStartOf="@+id/queueManagement_inner_constraintLayout"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/queueManagement_linearLayout_bundleList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/queueManagement_rooms_scrollView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/queueManagement_inner_constraintLayout"
+            app:layout_constraintStart_toStartOf="@+id/queueManagement_guideline"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/queueManagement_linearLayout_roomsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/queueManagement_guideline"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
-    </ScrollView>
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="200dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/textView"

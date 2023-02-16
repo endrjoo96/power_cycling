@@ -26,8 +26,7 @@ class GameContext(
     private var cyclerState: CyclerState by getDelegate(DELEGATE.CYCLER_STATE)
 
     val wallet: Wallet = Wallet(getDelegate(DELEGATE.WALLET_CHANGE))
-    val receptionQueue: ReceptionQueue<QueueBundle> =
-        ReceptionQueue(getDelegate(DELEGATE.QUEUE_STATE))
+    val receptionQueue: ReceptionQueue = ReceptionQueue(getDelegate(DELEGATE.QUEUE_STATE))
 
     val tickEngines: Map<String, TickEngine> = mapOf(
         Pair(PROGRESSBAR_TICK_ENGINE, TickEngine(PROGRESSBAR_TICK_ENGINE)),
@@ -74,9 +73,9 @@ class GameContext(
 
     @SuppressLint("SetTextI18n")
     private fun setupTickEngines() {
-        tickEngines[PROGRESSBAR_TICK_ENGINE]!!.also {
-            it.tickInterval = 100
-            it.setMethod {
+        tickEngines[PROGRESSBAR_TICK_ENGINE]!!.apply {
+            tickInterval = 100
+            setMethod {
                 if (progressBarCurrent > 0) {
                     progressBarCurrent -= ProgressBarConverter.convertConsumption(
                         currentBarConsumption
@@ -86,21 +85,24 @@ class GameContext(
                 }
             }
         }
-        tickEngines[ENERGY_CONSUMPTION_TICK_ENGINE]!!.also {
-            it.tickInterval = 2500
-            it.setMethod {
+        tickEngines[ENERGY_CONSUMPTION_TICK_ENGINE]!!.apply {
+            tickInterval = 2500
+            setMethod {
                 currentBarConsumption = energyDemandGovernor.getNextDemand()
                 energyConsumption = "${currentBarConsumption.roundToDecimalAsString(3)} kW"
 
             }
         }
-        tickEngines[RECEPTION_QUEUE_TICK_ENGINE]!!.also {
-            it.tickInterval = 1000
-            it.setMethod {
+        tickEngines[RECEPTION_QUEUE_TICK_ENGINE]!!.apply {
+            tickInterval = 1000
+            setMethod {
                 if (Random.nextFloat() <= Config.NEW_PERSON_IN_QUEUE_CHANCE) {
                     receptionQueue.addToQueue(QueueBundle(Random.nextInt(1, 4),
                     Collections.emptyList()))
+                    //todo stopniowo zwiekszac wymagania co do sprzetow
                 }
+                val annoyedBundles = receptionQueue.removePatienceAndReturnEntriesWithoutPatience()
+                receptionQueue.removeFromQueue(annoyedBundles)
             }
         }
     }
