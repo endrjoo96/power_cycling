@@ -4,13 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
-import com.nakolanie.powercycling.Device
-import com.nakolanie.powercycling.EfficiencyClass
 import com.nakolanie.powercycling.R
 import com.nakolanie.powercycling.Room
 import com.nakolanie.powercycling.extensions.GameAppCompatActivity
-import kotlinx.android.synthetic.main.activity_game__rooms_management.*
+import kotlinx.android.synthetic.main.activity_game_rooms_management.*
 import kotlin.math.pow
 
 
@@ -20,7 +17,7 @@ class Game_RoomsManagementActivity : GameAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_game__rooms_management)
+        setContentView(R.layout.activity_game_rooms_management)
 
         calculateNewRoomCost()
         addRoomsToScrollView()

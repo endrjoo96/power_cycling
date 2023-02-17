@@ -83,4 +83,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/queueManagement_button_return"
         app:layout_constraintTop_toTopOf="@+id/queueManagement_button_return" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

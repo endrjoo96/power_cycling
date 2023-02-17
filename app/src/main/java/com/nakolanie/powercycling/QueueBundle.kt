@@ -5,6 +5,10 @@ class QueueBundle(
     val minimalDevicesRequirements: List<Device>,
     private var patience: Int = 1000
 ) {
+    fun getPatience(): Int {
+        return patience
+    }
+
     fun lowerWaitingPatience() {
         patience--
     }

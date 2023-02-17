@@ -98,7 +98,7 @@ class GameContext(
             setMethod {
                 if (Random.nextFloat() <= Config.NEW_PERSON_IN_QUEUE_CHANCE) {
                     receptionQueue.addToQueue(QueueBundle(Random.nextInt(1, 4),
-                    Collections.emptyList()))
+                    listOf(READY_DEVICES.TV.get, READY_DEVICES.MICROWAVE.get.also { it.quality = Quality.NEW_TOP })))
                     //todo stopniowo zwiekszac wymagania co do sprzetow
                 }
                 val annoyedBundles = receptionQueue.removePatienceAndReturnEntriesWithoutPatience()

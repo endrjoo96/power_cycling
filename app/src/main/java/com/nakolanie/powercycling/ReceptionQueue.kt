@@ -18,6 +18,10 @@ class ReceptionQueue(
         queueSize = receptionQueue.size
     }
 
+    fun getQueue(): List<QueueBundle> {
+        return receptionQueue.toList()
+    }
+
     fun removeFromQueue(index: Int) {
         if (receptionQueue.size <= index) {
             return

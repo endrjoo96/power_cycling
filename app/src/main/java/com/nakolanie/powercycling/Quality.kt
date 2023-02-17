@@ -1,6 +1,6 @@
 package com.nakolanie.powercycling
 
-enum class Quality(priceMultiplicator: Float, friendlyDescription: String) {
+enum class Quality(val priceMultiplicator: Float, val friendlyDescription: String) {
     GARBAGE(0.10f, "Śmieć"),
     SOMEHOW_WORKING(0.35f, "Jakoś działa"),
     DENTED(0.6f, "Powgniatane"),

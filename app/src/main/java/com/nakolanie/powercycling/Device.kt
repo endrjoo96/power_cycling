@@ -12,8 +12,9 @@ class Device(
     efficiencyClass: EfficiencyClass = EfficiencyClass.F,
     val enabledByMaxTicks: Int = 0,
     val isOwnedByPlayer: Boolean = true,
+    quality: Quality = Quality.GARBAGE
 ) {
-    lateinit var quality: Quality
+    var quality = quality
 
     var efficiencyClass = efficiencyClass
 
