@@ -1,4 +1,4 @@
-package com.nakolanie.powercycling
+package com.nakolanie.powercycling.converters
 
 import com.nakolanie.powercycling.configs.GameConfig
 

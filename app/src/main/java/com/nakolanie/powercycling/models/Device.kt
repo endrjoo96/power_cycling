@@ -1,6 +1,7 @@
 package com.nakolanie.powercycling
 
 import com.nakolanie.powercycling.enums.EfficiencyClass
+import com.nakolanie.powercycling.enums.Quality
 import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimal
 
 /**

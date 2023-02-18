@@ -5,15 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import com.nakolanie.powercycling.QueueBundle
+import com.nakolanie.powercycling.models.QueueBundle
 import com.nakolanie.powercycling.R
-import com.nakolanie.powercycling.Room
+import com.nakolanie.powercycling.models.Room
 import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.extensions.GameAppCompatActivity
 import kotlinx.android.synthetic.main.activity_game_queue_management.*
 
 class Game_QueueManagementActivity : GameAppCompatActivity() {
-    private val queue: List<QueueBundle> = GameContext.get().receptionQueue.getQueue()
+    private val queue: List<QueueBundle> = GameContext.get().queueService.getQueue()
     private val rooms: MutableList<Room> = GameContext.get().rooms
     private lateinit var inflater: LayoutInflater
 

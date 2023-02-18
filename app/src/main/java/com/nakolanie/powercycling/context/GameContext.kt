@@ -1,21 +1,15 @@
 package com.nakolanie.powercycling.context
 
 import android.annotation.SuppressLint
-import com.nakolanie.powercycling.*
 import com.nakolanie.powercycling.configs.GameConfig
+import com.nakolanie.powercycling.converters.ProgressBarConverter
 import com.nakolanie.powercycling.delegates.DelegateService
-import com.nakolanie.powercycling.enums.CyclingCharacterState
-import com.nakolanie.powercycling.enums.EfficiencyClass
-import com.nakolanie.powercycling.enums.EngineName
-import com.nakolanie.powercycling.enums.ReadyDevice
-import com.nakolanie.powercycling.enums.DelegateDefinition
+import com.nakolanie.powercycling.enums.*
 import com.nakolanie.powercycling.exceptions.ContextNotInitiatedException
-import com.nakolanie.powercycling.models.CyclingCharacter
-import com.nakolanie.powercycling.models.Engine
-import com.nakolanie.powercycling.models.TickEngine
-import com.nakolanie.powercycling.models.Wallet
+import com.nakolanie.powercycling.models.*
 import com.nakolanie.powercycling.services.EnergyDemandGovernorService
 import com.nakolanie.powercycling.services.EngineService
+import com.nakolanie.powercycling.services.QueueService
 import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimalAsString
 import kotlin.properties.ReadWriteProperty
 import kotlin.random.Random
@@ -55,7 +49,7 @@ class GameContext private constructor(
     private var cyclingCharacterState: CyclingCharacterState by getDelegate(DelegateDefinition.CYCLING_CHARACTER_STATE)
 
     val wallet: Wallet = Wallet(getDelegate(DelegateDefinition.WALLET_STATE))
-    val receptionQueue: ReceptionQueue = ReceptionQueue(getDelegate(DelegateDefinition.QUEUE_STATE))
+    val queueService: QueueService = QueueService(getDelegate(DelegateDefinition.QUEUE_STATE))
 
     val engineService = EngineService()
 
@@ -111,7 +105,7 @@ class GameContext private constructor(
                 tickInterval = 1000
                 setMethod {
                     if (Random.nextFloat() <= GameConfig.NEW_PERSON_IN_QUEUE_CHANCE) {
-                        receptionQueue.addToQueue(
+                        queueService.addToQueue(
                             QueueBundle(
                                 Random.nextInt(1, 4),
                                 listOf(
@@ -121,8 +115,8 @@ class GameContext private constructor(
                         )
                         //todo stopniowo zwiekszac wymagania co do sprzetow
                     }
-                    val annoyedBundles = receptionQueue.removePatienceAndReturnEntriesWithoutPatience()
-                    receptionQueue.removeFromQueue(annoyedBundles)
+                    val annoyedBundles = queueService.removePatienceAndReturnEntriesWithoutPatience()
+                    queueService.removeFromQueue(annoyedBundles)
                 }
             })
             addEngine(Engine(EngineName.TAP_ENGINE).apply {

@@ -1,4 +1,4 @@
-package com.nakolanie.powercycling
+package com.nakolanie.powercycling.enums
 
 enum class Quality(val priceMultiplicator: Float, val friendlyDescription: String) {
     GARBAGE(0.10f, "Śmieć"),

@@ -1,4 +1,6 @@
-package com.nakolanie.powercycling
+package com.nakolanie.powercycling.models
+
+import com.nakolanie.powercycling.Device
 
 class QueueBundle(
     val bundleSize: Int,

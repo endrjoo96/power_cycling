@@ -1,6 +1,6 @@
 package com.nakolanie.powercycling.services
 
-import com.nakolanie.powercycling.Room
+import com.nakolanie.powercycling.models.Room
 import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimal
 
 class EnergyDemandGovernorService(val rooms: MutableList<Room>) {

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.nakolanie.powercycling.R
-import com.nakolanie.powercycling.Room
+import com.nakolanie.powercycling.models.Room
 import com.nakolanie.powercycling.front.game.GameActivity
 import kotlin.system.exitProcess
 

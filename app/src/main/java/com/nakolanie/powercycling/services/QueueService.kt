@@ -1,9 +1,9 @@
-package com.nakolanie.powercycling
+package com.nakolanie.powercycling.services
 
-import java.util.function.Consumer
+import com.nakolanie.powercycling.models.QueueBundle
 import kotlin.properties.ReadWriteProperty
 
-class ReceptionQueue(
+class QueueService(
     queueSizeDelegate: ReadWriteProperty<Any?, Int>
 ) {
     private var queueSize: Int by queueSizeDelegate
