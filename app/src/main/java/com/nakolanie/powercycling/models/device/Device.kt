@@ -63,4 +63,13 @@ abstract class Device(
     protected fun changeName(newName: String) {
         name = newName
     }
+
+    override fun toString(): String {
+        return String.format(
+            "[%s] %s\n(%s)",
+            efficiencyClass.friendlyName,
+            getName(),
+            quality.friendlyDescription
+        )
+    }
 }

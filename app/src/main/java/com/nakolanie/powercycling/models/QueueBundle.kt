@@ -12,7 +12,7 @@ class QueueBundle(
     }
 
     fun lowerWaitingPatience() {
-        patience--
+        patience -= 5
     }
 
     fun bundleLostPatience(): Boolean {

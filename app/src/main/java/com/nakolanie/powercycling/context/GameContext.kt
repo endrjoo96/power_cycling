@@ -9,6 +9,7 @@ import com.nakolanie.powercycling.exceptions.ContextNotInitiatedException
 import com.nakolanie.powercycling.models.*
 import com.nakolanie.powercycling.models.device.KettleDevice
 import com.nakolanie.powercycling.models.device.LightBulbDevice
+import com.nakolanie.powercycling.models.device.TvDevice
 import com.nakolanie.powercycling.services.EnergyDemandGovernorService
 import com.nakolanie.powercycling.services.EngineService
 import com.nakolanie.powercycling.services.QueueService
@@ -70,6 +71,34 @@ class GameContext private constructor(
         setupCycler()
         setupEngines()
         setupDefaultRoomWithDevices()
+
+        //TODO usunac
+        tempAddToQueue()
+    }
+
+    //TODO usunac
+    private fun tempAddToQueue() {
+        queueService.addToQueue(
+            QueueBundle(
+                1,
+                listOf(
+                    LightBulbDevice(),
+                    KettleDevice().also {
+                        it.efficiencyClass = EfficiencyClass.F
+                        it.quality = Quality.USED_LOWEND
+                    })
+            )
+        )
+        queueService.addToQueue(
+            QueueBundle(
+                4,
+                listOf(
+                    TvDevice().also {
+                        it.efficiencyClass = EfficiencyClass.A
+                        it.quality = Quality.NEW_GOOD
+                    })
+            )
+        )
     }
 
     @SuppressLint("SetTextI18n")

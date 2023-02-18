@@ -71,12 +71,16 @@ class Room(val name: String) {
         if (isBookable(queueBundle)) {
             peopleBooked = queueBundle.bundleSize
             peopleCurrently = queueBundle.bundleSize
+            devices.forEach { device -> device.enabled = true }
         }
+    }
+
+    fun isOccupied(): Boolean {
+        return peopleBooked != 0
     }
 
     fun isBookable(queueBundle: QueueBundle): Boolean {
         return peopleBooked == 0
-                && peopleCurrently == 0
                 && queueBundle.bundleSize <= roomCapacity
                 && meetsMinimalRequirements(queueBundle.minimalDevicesRequirements)
     }
@@ -114,6 +118,10 @@ class Room(val name: String) {
 
     fun insertDevice(device: Device) {
         devices.add(device)
+    }
+
+    fun getRoomCapacity(): Int {
+        return roomCapacity
     }
 
     companion object {
