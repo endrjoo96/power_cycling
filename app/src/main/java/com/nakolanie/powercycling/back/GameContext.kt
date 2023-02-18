@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import com.nakolanie.powercycling.*
 import com.nakolanie.powercycling.Helpers.Companion.roundToDecimalAsString
 import com.nakolanie.powercycling.front.game.DELEGATE
-import java.util.*
 import kotlin.properties.ReadWriteProperty
 import kotlin.random.Random
 
@@ -14,12 +13,7 @@ class GameContext(
     private val delegatesMap: Map<DELEGATE, ReadWriteProperty<Any?, *>>
 ) {
 
-    companion object {
-        val PROGRESSBAR_TICK_ENGINE = "progressbar"
-        val ENERGY_CONSUMPTION_TICK_ENGINE = "energyConsumption"
-        val RECEPTION_QUEUE_TICK_ENGINE = "receptionQueue"
-        val TAP_ENGINE = "tap"
-    }
+
 
     private var progressBarCurrent: Int by getDelegate(DELEGATE.PROGRESS_UPDATE)
     private var energyConsumption: String by getDelegate(DELEGATE.ENERGY_CONSUMPTION)
@@ -28,14 +22,14 @@ class GameContext(
     val wallet: Wallet = Wallet(getDelegate(DELEGATE.WALLET_CHANGE))
     val receptionQueue: ReceptionQueue = ReceptionQueue(getDelegate(DELEGATE.QUEUE_STATE))
 
-    val tickEngines: Map<String, TickEngine> = mapOf(
-        Pair(PROGRESSBAR_TICK_ENGINE, TickEngine(PROGRESSBAR_TICK_ENGINE)),
-        Pair(ENERGY_CONSUMPTION_TICK_ENGINE, TickEngine(ENERGY_CONSUMPTION_TICK_ENGINE)),
-        Pair(RECEPTION_QUEUE_TICK_ENGINE, TickEngine(RECEPTION_QUEUE_TICK_ENGINE))
+    val tickEngines: Map<ENGINE_NAME, TickEngine> = mapOf(
+        TickEngine(ENGINE_NAME.PROGRESSBAR_TICK_ENGINE).mapToPair(),
+        TickEngine(ENGINE_NAME.ENERGY_CONSUMPTION_TICK_ENGINE).mapToPair(),
+        TickEngine(ENGINE_NAME.RECEPTION_QUEUE_TICK_ENGINE).mapToPair()
     )
 
-    val engines: Map<String, Engine> = mapOf(
-        Pair(TAP_ENGINE, Engine(TAP_ENGINE))
+    val engines: Map<ENGINE_NAME, Engine> = mapOf(
+        Engine(ENGINE_NAME.TAP_ENGINE).mapToPair()
     )
     private lateinit var cycler: Cycler
     val rooms: MutableList<Room> = mutableListOf(
@@ -73,7 +67,7 @@ class GameContext(
 
     @SuppressLint("SetTextI18n")
     private fun setupTickEngines() {
-        tickEngines[PROGRESSBAR_TICK_ENGINE]!!.apply {
+        tickEngines[ENGINE_NAME.PROGRESSBAR_TICK_ENGINE]!!.apply {
             tickInterval = 100
             setMethod {
                 if (progressBarCurrent > 0) {
@@ -85,7 +79,7 @@ class GameContext(
                 }
             }
         }
-        tickEngines[ENERGY_CONSUMPTION_TICK_ENGINE]!!.apply {
+        tickEngines[ENGINE_NAME.ENERGY_CONSUMPTION_TICK_ENGINE]!!.apply {
             tickInterval = 2500
             setMethod {
                 currentBarConsumption = energyDemandGovernor.getNextDemand()
@@ -93,7 +87,7 @@ class GameContext(
 
             }
         }
-        tickEngines[RECEPTION_QUEUE_TICK_ENGINE]!!.apply {
+        tickEngines[ENGINE_NAME.RECEPTION_QUEUE_TICK_ENGINE]!!.apply {
             tickInterval = 1000
             setMethod {
                 if (Random.nextFloat() <= Config.NEW_PERSON_IN_QUEUE_CHANCE) {
@@ -108,8 +102,8 @@ class GameContext(
     }
 
     private fun setupEngines() {
-        engines[TAP_ENGINE]!!.setMethod {
-            if (!tickEngines[PROGRESSBAR_TICK_ENGINE]!!.paused) {
+        engines[ENGINE_NAME.TAP_ENGINE]!!.setMethod {
+            if (!tickEngines[ENGINE_NAME.PROGRESSBAR_TICK_ENGINE]!!.paused) {
                 val current = progressBarCurrent + Config.TAP_POWER
                 progressBarCurrent = if (current > progressBarMax) {
                     val overprod = current - progressBarMax
@@ -150,7 +144,14 @@ class GameContext(
         println("EXECUTED INTERCEPTOR")
         return this.add(element)
     }
-//    private fun <T> MutableList<T>.add
+}
+
+enum class ENGINE_NAME (val value: String) {
+    UNDEFINED("UNDEFINED-ENGINE"),
+    PROGRESSBAR_TICK_ENGINE("progressbar"),
+    ENERGY_CONSUMPTION_TICK_ENGINE("energyConsumption"),
+    RECEPTION_QUEUE_TICK_ENGINE("receptionQueue"),
+    TAP_ENGINE("tap")
 }
 
 

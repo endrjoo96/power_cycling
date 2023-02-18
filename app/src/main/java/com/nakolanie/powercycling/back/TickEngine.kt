@@ -5,7 +5,7 @@ import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class TickEngine(
-    engineName: String = "unnamedEngine",
+    engineName: ENGINE_NAME = ENGINE_NAME.UNDEFINED,
     coroutinesExecutionContext: CoroutineContext = Dispatchers.Main,
     var tickInterval: Long = 2000
 ) : Engine(engineName, coroutinesExecutionContext) {
@@ -18,15 +18,17 @@ class TickEngine(
         private set
     var paused = false
         private set
-//    private var lastExecutedTaskTimestamp: Long = 0
 
     init {
         timeRemaining = tickInterval
     }
 
+    fun getName(): ENGINE_NAME {
+        return engineName
+    }
+
     fun start(timeToFirstExecution: Long = tickInterval) {
         if (started) return
-//        lastExecutedTaskTimestamp = System.currentTimeMillis()
         timer = Timer()
         task = object : TimerTask() {
             override fun run() {
@@ -61,7 +63,10 @@ class TickEngine(
             paused = false
             println("$engineType $engineName resumed")
         }
+    }
 
+    override fun mapToPair(): Pair<ENGINE_NAME, TickEngine> {
+        return Pair(engineName, this)
     }
 
     fun getTimeToNextExecution(): Long = System.currentTimeMillis() - task.scheduledExecutionTime()

@@ -6,16 +6,16 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 open class Engine(
-    protected val engineName: String = "unnamedEngine",
+    protected val engineName: ENGINE_NAME,
     private val coroutinesExecutionContext: CoroutineContext = Dispatchers.Main
 ) {
     protected lateinit var engineType: String
     protected var executionMethod: () -> Unit =
-        { println("$engineType $engineName: Not set tick method.") }
+        { println("$engineType ${engineName.value}: Not set tick method.") }
 
     init {
         engineType = this::class.simpleName.toString()
-        println("$engineType $engineName created")
+        println("$engineType ${engineName.value} created")
     }
 
     fun setMethod(method: () -> Unit) {
@@ -23,8 +23,10 @@ open class Engine(
     }
 
     fun executeMethod() = CoroutineScope(coroutinesExecutionContext).launch {
-//                    println("@@@@ ${engineName} >>> Uruchomiono po ${System.currentTimeMillis() - lastExecutedTaskTimestamp} ms")
         executionMethod()
-//                    lastExecutedTaskTimestamp = System.currentTimeMillis()
+    }
+
+    open fun mapToPair(): Pair<ENGINE_NAME, Engine> {
+        return Pair(engineName, this)
     }
 }
