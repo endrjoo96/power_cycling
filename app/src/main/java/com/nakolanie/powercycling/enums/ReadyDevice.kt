@@ -1,6 +1,6 @@
 package com.nakolanie.powercycling.enums
 
-import com.nakolanie.powercycling.Device
+import com.nakolanie.powercycling.models.Device
 
 enum class ReadyDevice(val get: Device, val value: Float) {
     MICROWAVE(

@@ -1,4 +1,4 @@
-package com.nakolanie.powercycling
+package com.nakolanie.powercycling.models
 
 import com.nakolanie.powercycling.enums.EfficiencyClass
 import com.nakolanie.powercycling.enums.Quality
@@ -13,7 +13,7 @@ class Device(
     val electricityDemand: Float,
     efficiencyClass: EfficiencyClass = EfficiencyClass.F,
     val enabledByMaxTicks: Int = 0,
-    val isOwnedByPlayer: Boolean = true,
+    val isOwnedByPlayer: Boolean = true,    //urzadzenia moga byc wlasnoscia gosci, obecnie niewykorzystywane
     quality: Quality = Quality.GARBAGE
 ) {
     var quality = quality

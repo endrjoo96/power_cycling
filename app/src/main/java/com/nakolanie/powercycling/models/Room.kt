@@ -1,6 +1,5 @@
 package com.nakolanie.powercycling.models
 
-import com.nakolanie.powercycling.Device
 import java.util.stream.Collectors
 import kotlin.random.Random
 

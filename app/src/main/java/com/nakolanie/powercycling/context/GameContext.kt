@@ -27,11 +27,12 @@ class GameContext private constructor(
             finishMethod: () -> Unit,
             delegateServicesMap: Map<DelegateDefinition, DelegateService<*>>
         ): GameContext {
-            context = GameContext(GameConfig.MAX_PROGRESSBAR_VALUE, finishMethod, delegateServicesMap)
+            context =
+                GameContext(GameConfig.MAX_PROGRESSBAR_VALUE, finishMethod, delegateServicesMap)
             return get()
         }
 
-        fun get(): GameContext{
+        fun get(): GameContext {
             if (context == null) {
                 throw ContextNotInitiatedException()
             }
@@ -115,7 +116,8 @@ class GameContext private constructor(
                         )
                         //todo stopniowo zwiekszac wymagania co do sprzetow
                     }
-                    val annoyedBundles = queueService.removePatienceAndReturnEntriesWithoutPatience()
+                    val annoyedBundles =
+                        queueService.removePatienceAndReturnEntriesWithoutPatience()
                     queueService.removeFromQueue(annoyedBundles)
                 }
             })
@@ -125,7 +127,6 @@ class GameContext private constructor(
                         val current = progressBarCurrent + GameConfig.TAP_POWER
                         progressBarCurrent = if (current > progressBarMax) {
                             val overprod = current - progressBarMax
-                            println("NADWYŻKA $overprod")
                             wallet.put(overprod / 1000f)
                             progressBarMax
                         } else {

@@ -2,11 +2,11 @@ package com.nakolanie.powercycling.front.game
 
 import android.os.Bundle
 import android.view.View
-import com.nakolanie.powercycling.Device
 import com.nakolanie.powercycling.R
 import com.nakolanie.powercycling.models.Room
 import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.extensions.GameAppCompatActivity
+import com.nakolanie.powercycling.models.Device
 import kotlinx.android.synthetic.main.activity_game_manage_device.*
 
 class Game_ManageDevice : GameAppCompatActivity() {
