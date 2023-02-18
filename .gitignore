@@ -1,1 +1,4 @@
 **/done-work.md
+**/.gradle/*
+**/.idea/*
+/local.properties
