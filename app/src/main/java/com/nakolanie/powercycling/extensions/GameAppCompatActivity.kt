@@ -5,9 +5,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.enums.EngineName
-import com.nakolanie.powercycling.front.game.GameActivity
-import com.nakolanie.powercycling.front.game.Game_QueueManagementActivity
-import com.nakolanie.powercycling.front.game.Game_RoomsManagementActivity
+import com.nakolanie.powercycling.activities.game.Game_QueueManagementActivity
+import com.nakolanie.powercycling.activities.game.Game_RoomsManagementActivity
 import com.nakolanie.powercycling.models.Engine
 
 open class GameAppCompatActivity : AppCompatActivity() {

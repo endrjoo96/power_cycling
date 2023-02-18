@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:onClick="onGameScreenTap"
-    tools:context=".front.game.GameActivity">
+    tools:context=".activities.game.GameActivity">
 
     <TextView
         android:id="@+id/gameActivity_textView"

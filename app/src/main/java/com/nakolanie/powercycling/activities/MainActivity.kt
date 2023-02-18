@@ -1,4 +1,4 @@
-package com.nakolanie.powercycling.front
+package com.nakolanie.powercycling.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.nakolanie.powercycling.R
 import com.nakolanie.powercycling.models.Room
-import com.nakolanie.powercycling.front.game.GameActivity
+import com.nakolanie.powercycling.activities.game.GameActivity
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {

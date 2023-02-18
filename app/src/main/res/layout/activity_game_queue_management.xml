@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".front.game.Game_QueueManagementActivity">
+    tools:context=".activities.game.Game_QueueManagementActivity">
 
     <Button
         android:id="@+id/queueManagement_button_return"

@@ -1,4 +1,4 @@
-package com.nakolanie.powercycling.front.game
+package com.nakolanie.powercycling.activities.game
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,13 +6,11 @@ import com.nakolanie.powercycling.R
 import com.nakolanie.powercycling.configs.GameConfig
 import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.delegates.*
-import com.nakolanie.powercycling.enums.CyclingCharacterState
 import com.nakolanie.powercycling.enums.DelegateDefinition
 import com.nakolanie.powercycling.extensions.GameAppCompatActivity
 import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimalAsString
 import com.nakolanie.powercycling.utils.ResourcesUtils
 import kotlinx.android.synthetic.main.activity_game.*
-import kotlin.properties.Delegates
 
 class GameActivity : GameAppCompatActivity() {
 

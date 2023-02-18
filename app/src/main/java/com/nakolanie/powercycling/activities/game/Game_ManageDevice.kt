@@ -1,4 +1,4 @@
-package com.nakolanie.powercycling.front.game
+package com.nakolanie.powercycling.activities.game
 
 import android.os.Bundle
 import android.view.View
