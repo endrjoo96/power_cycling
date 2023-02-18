@@ -6,7 +6,7 @@ import com.nakolanie.powercycling.R
 import com.nakolanie.powercycling.models.Room
 import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.extensions.GameAppCompatActivity
-import com.nakolanie.powercycling.models.Device
+import com.nakolanie.powercycling.models.device.Device
 import kotlinx.android.synthetic.main.activity_game_manage_device.*
 
 class Game_ManageDevice : GameAppCompatActivity() {
@@ -25,7 +25,7 @@ class Game_ManageDevice : GameAppCompatActivity() {
     }
 
     private fun refresh() {
-        manageDevice_textView_title.setText("${room.name} >> ${device.name}")
+        manageDevice_textView_title.setText("${room.name} >> ${device.getName()}")
         manageDevice_textView_efficiencyClass.setText(device.efficiencyClass.friendlyName)
         manageDevice_textView_overallEnergyConsumption.setText("${(device.getPowerConsumption()*1000).toInt()} W")
         setControlsBasedOnOwnership()

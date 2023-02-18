@@ -1,7 +1,4 @@
-done:
-- activities package refactor
-
 current work:
-- 
+- replace devices names with devices enum list (with friendly names)
 
-!!! TESTED: WORKING !!!
+!!! TESTED: NO !!!

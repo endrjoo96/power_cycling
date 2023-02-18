@@ -7,6 +7,8 @@ import com.nakolanie.powercycling.delegates.DelegateService
 import com.nakolanie.powercycling.enums.*
 import com.nakolanie.powercycling.exceptions.ContextNotInitiatedException
 import com.nakolanie.powercycling.models.*
+import com.nakolanie.powercycling.models.device.KettleDevice
+import com.nakolanie.powercycling.models.device.LightBulbDevice
 import com.nakolanie.powercycling.services.EnergyDemandGovernorService
 import com.nakolanie.powercycling.services.EngineService
 import com.nakolanie.powercycling.services.QueueService
@@ -110,8 +112,11 @@ class GameContext private constructor(
                             QueueBundle(
                                 Random.nextInt(1, 4),
                                 listOf(
-                                    ReadyDevice.TV.get,
-                                    ReadyDevice.MICROWAVE.get.also { it.quality = Quality.NEW_TOP })
+                                    LightBulbDevice(),
+                                    KettleDevice().also {
+                                        it.efficiencyClass = EfficiencyClass.F
+                                        it.quality = Quality.USED_LOWEND
+                                    })
                             )
                         )
                         //todo stopniowo zwiekszac wymagania co do sprzetow
@@ -143,11 +148,11 @@ class GameContext private constructor(
         rooms.addAll(
             listOf(
                 Room().also { room ->
-                    room.insertDevice(ReadyDevice.LED_LIGHT.get.also {
+                    room.insertDevice(LightBulbDevice().also {
                         it.efficiencyClass = EfficiencyClass.E
                         it.quality = Quality.NEW_LOWEND
                     })
-                    room.insertDevice(ReadyDevice.KETTLE.get.also {
+                    room.insertDevice(KettleDevice().also {
                         it.efficiencyClass = EfficiencyClass.F
                         it.quality = Quality.USED_LOWEND
                     })

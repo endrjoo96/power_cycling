@@ -52,7 +52,7 @@ class Game_QueueManagementActivity : GameAppCompatActivity() {
 
                 bundle.minimalDevicesRequirements.forEachIndexed {index, device ->
                     val textView = TextView(this@Game_QueueManagementActivity)
-                    textView.text = String.format("%s (%s)", device.name, device.quality.friendlyDescription)
+                    textView.text = String.format("%s (%s)", device.getName(), device.quality.friendlyDescription)
                     requiredDevicesLinearLayout.addView(textView, index)
                 }
 

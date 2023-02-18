@@ -30,7 +30,7 @@ class Game_ManageRoom : GameAppCompatActivity() {
         room.devices.forEachIndexed { index, device ->
             run {
                 manageRoom_linearLayout_devicesList.addView(Button(this).also {
-                    it.text = device.name
+                    it.text = device.getName()
                     it.setOnClickListener(object : View.OnClickListener {
                         override fun onClick(p0: View?) {
                             p0?.let { openDeviceSettings(index) }

@@ -1,4 +1,4 @@
-package com.nakolanie.powercycling.models
+package com.nakolanie.powercycling.models.device
 
 import com.nakolanie.powercycling.enums.EfficiencyClass
 import com.nakolanie.powercycling.enums.Quality
@@ -8,17 +8,15 @@ import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimal
  * efficiencyClass: class of device efficiency
  * electricityDemand: electricity demand in kW
  */
-class Device(
-    val name: String,
-    val electricityDemand: Float,
-    efficiencyClass: EfficiencyClass = EfficiencyClass.F,
+abstract class Device(
+    private var name: String,
+    private val electricityDemand: Float,
+    var efficiencyClass: EfficiencyClass = EfficiencyClass.F,
     val enabledByMaxTicks: Int = 0,
     val isOwnedByPlayer: Boolean = true,    //urzadzenia moga byc wlasnoscia gosci, obecnie niewykorzystywane
-    quality: Quality = Quality.GARBAGE
+    var quality: Quality = Quality.GARBAGE
 ) {
-    var quality = quality
-
-    var efficiencyClass = efficiencyClass
+    protected abstract val baseValue: Float //najnizsza mozliwa cena urzadzenia
 
     var enabled: Boolean = false
         set(value) {
@@ -56,5 +54,13 @@ class Device(
                     EfficiencyClass.values().indexOf(efficiencyClass) + 1
             ]
         }
+    }
+
+    fun getName(): String {
+        return name
+    }
+
+    protected fun changeName(newName: String) {
+        name = newName
     }
 }

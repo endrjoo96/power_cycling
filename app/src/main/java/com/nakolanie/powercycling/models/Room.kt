@@ -1,5 +1,6 @@
 package com.nakolanie.powercycling.models
 
+import com.nakolanie.powercycling.models.device.Device
 import java.util.stream.Collectors
 import kotlin.random.Random
 
@@ -19,7 +20,7 @@ class Room(val name: String) {
         println("--- Devices in current usage:")
         devices.forEach {
             powerConsumption += it.getCurrentPowerConsumption()
-            if (it.enabled) println("------- ${it.name}")
+            if (it.enabled) println("------- ${it.getName()}")
         }
 
         return powerConsumption
@@ -92,7 +93,7 @@ class Room(val name: String) {
         for (requirement in requirements) {
             val matchingDevice = devices.stream()
                 .filter { device ->
-                    device.name == requirement.name &&
+                    device.getName() == requirement.getName() &&
                             !correctDevices.contains(device)
                 }
                 .collect(Collectors.toList()).sortedBy { device -> device.quality }
