@@ -6,13 +6,14 @@ import android.view.View
 import android.widget.Button
 import com.nakolanie.powercycling.R
 import com.nakolanie.powercycling.Room
+import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.extensions.GameAppCompatActivity
 import kotlinx.android.synthetic.main.activity_game_rooms_management.*
 import kotlin.math.pow
 
 
 class Game_RoomsManagementActivity : GameAppCompatActivity() {
-    private val rooms: MutableList<Room> = GameActivity.GetContext().rooms
+    private val rooms: MutableList<Room> = GameContext.get().rooms
     private var newRoomCost: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +49,7 @@ class Game_RoomsManagementActivity : GameAppCompatActivity() {
         }
         val button = Button(this)
         button.setText("+ nowy pokój ($${newRoomCost})")
-        button.isEnabled = GameActivity.GetContext().wallet.isEnough(newRoomCost)
+        button.isEnabled = GameContext.get().wallet.isEnough(newRoomCost)
         button.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 p0?.let { onNewRoom() }
@@ -65,9 +66,9 @@ class Game_RoomsManagementActivity : GameAppCompatActivity() {
     }
 
     fun onNewRoom() {
-        if (GameActivity.GetContext().wallet.isEnough(newRoomCost)) {
+        if (GameContext.get().wallet.isEnough(newRoomCost)) {
             rooms.add(Room())
-            GameActivity.GetContext().wallet.pay(newRoomCost)
+            GameContext.get().wallet.pay(newRoomCost)
             calculateNewRoomCost()
             addRoomsToScrollView()
         }

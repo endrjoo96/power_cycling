@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.nakolanie.powercycling.Device
 import com.nakolanie.powercycling.R
 import com.nakolanie.powercycling.Room
+import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.extensions.GameAppCompatActivity
 import kotlinx.android.synthetic.main.activity_game_manage_device.*
 
@@ -19,7 +20,7 @@ class Game_ManageDevice : GameAppCompatActivity() {
         val roomIndex: Int = intent.extras!!.getInt("roomIndex")
         val deviceIndex: Int = intent.extras!!.getInt("deviceIndex")
 
-        room = GameActivity.GetContext().rooms[roomIndex]
+        room = GameContext.get().rooms[roomIndex]
         device = room.devices[deviceIndex]
         refresh()
     }

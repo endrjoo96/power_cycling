@@ -1,8 +1,18 @@
 package com.nakolanie.powercycling.delegates
 
 import com.nakolanie.powercycling.enums.DelegateDefinition
-import kotlin.properties.ReadWriteProperty
 
-interface DelegateProducer<T> {
-    fun produce(definition: DelegateDefinition, observable: ReadWriteProperty<Any?, T>): DelegateService
+abstract class DelegateProducer<T> {
+    abstract val initialObservableState: T
+    abstract val delegateDefinition: DelegateDefinition
+
+    fun produce(consumer: (T) -> Unit): Pair<DelegateDefinition, DelegateService<T>> {
+        return Pair(
+            delegateDefinition, produceDelegate(consumer)
+        )
+    }
+
+    fun produceDelegate(consumer: (T) -> Unit): DelegateService<T> =
+        DelegateService(delegateDefinition, initialObservableState, consumer)
+
 }

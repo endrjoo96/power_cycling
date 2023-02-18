@@ -7,6 +7,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.nakolanie.powercycling.R
 import com.nakolanie.powercycling.Room
+import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.extensions.GameAppCompatActivity
 import kotlinx.android.synthetic.main.activity_game_manage_room.*
 
@@ -18,7 +19,7 @@ class Game_ManageRoom : GameAppCompatActivity() {
         setContentView(R.layout.activity_game_manage_room)
         val roomIndex: Int = intent.extras!!.getInt("roomIndex")
 
-        room = GameActivity.GetContext().rooms[roomIndex]
+        room = GameContext.get().rooms[roomIndex]
 
         manageRoom_textView_title.setText(room.name)
 

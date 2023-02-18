@@ -3,6 +3,7 @@ package com.nakolanie.powercycling.context
 import android.annotation.SuppressLint
 import com.nakolanie.powercycling.*
 import com.nakolanie.powercycling.configs.GameConfig
+import com.nakolanie.powercycling.delegates.DelegateService
 import com.nakolanie.powercycling.enums.CyclingCharacterState
 import com.nakolanie.powercycling.enums.EfficiencyClass
 import com.nakolanie.powercycling.enums.EngineName
@@ -22,7 +23,7 @@ import kotlin.random.Random
 class GameContext private constructor(
     var progressBarMax: Int,
     private val finishMethod: () -> Unit,
-    private val delegatesMap: Map<DelegateDefinition, ReadWriteProperty<Any?, *>>
+    private val delegateServicesMap: Map<DelegateDefinition, DelegateService<*>>
 ) {
 
     companion object {
@@ -30,9 +31,9 @@ class GameContext private constructor(
 
         fun init(
             finishMethod: () -> Unit,
-            delegatesMap: Map<DelegateDefinition, ReadWriteProperty<Any?, *>>
+            delegateServicesMap: Map<DelegateDefinition, DelegateService<*>>
         ): GameContext {
-            context = GameContext(GameConfig.MAX_PROGRESSBAR_VALUE, finishMethod, delegatesMap)
+            context = GameContext(GameConfig.MAX_PROGRESSBAR_VALUE, finishMethod, delegateServicesMap)
             return get()
         }
 
@@ -48,14 +49,15 @@ class GameContext private constructor(
         }
     }
 
+
     private var progressBarCurrent: Int by getDelegate(DelegateDefinition.PROGRESS_UPDATE)
     private var energyConsumption: String by getDelegate(DelegateDefinition.ENERGY_CONSUMPTION)
-    private var cyclingCharacterState: CyclingCharacterState by getDelegate(DelegateDefinition.CYCLER_STATE)
+    private var cyclingCharacterState: CyclingCharacterState by getDelegate(DelegateDefinition.CYCLING_CHARACTER_STATE)
 
-    val wallet: Wallet = Wallet(getDelegate(DelegateDefinition.WALLET_CHANGE))
+    val wallet: Wallet = Wallet(getDelegate(DelegateDefinition.WALLET_STATE))
     val receptionQueue: ReceptionQueue = ReceptionQueue(getDelegate(DelegateDefinition.QUEUE_STATE))
 
-    private val engineService = EngineService()
+    val engineService = EngineService()
 
     private lateinit var cyclingCharacter: CyclingCharacter
     val rooms: MutableList<Room> = mutableListOf()
@@ -176,8 +178,9 @@ class GameContext private constructor(
         engineService.getTickEngines().forEach { it.stop() }
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun <T> getDelegate(anEnum: DelegateDefinition): ReadWriteProperty<Any?, T> {
-        return delegatesMap[anEnum] as ReadWriteProperty<Any?, T>
+        return delegateServicesMap[anEnum]!!.getObservable() as ReadWriteProperty<Any?, T>
     }
 }
 
