@@ -1,10 +1,10 @@
-package com.nakolanie.powercycling
+package com.nakolanie.powercycling.configs
 
-abstract class Config {
+abstract class GameConfig {
     companion object {
         val TAP_POWER = 200
         val MAX_PROGRESSBAR_VALUE = 4000
         val START_PROGRESSBAR_VALUE = 1
-        val NEW_PERSON_IN_QUEUE_CHANCE = 0.2f
+        val NEW_PERSON_IN_QUEUE_CHANCE = 0.05f
     }
 }

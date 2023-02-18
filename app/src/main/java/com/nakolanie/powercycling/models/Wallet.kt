@@ -1,6 +1,6 @@
-package com.nakolanie.powercycling.back
+package com.nakolanie.powercycling.models
 
-import com.nakolanie.powercycling.Helpers.Companion.roundToDecimal
+import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimal
 import kotlin.properties.ReadWriteProperty
 
 class Wallet(walletAmountDelegate: ReadWriteProperty<Any?, Float>){

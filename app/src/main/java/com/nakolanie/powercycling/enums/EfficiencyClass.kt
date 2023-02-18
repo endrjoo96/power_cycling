@@ -1,4 +1,4 @@
-package com.nakolanie.powercycling
+package com.nakolanie.powercycling.enums
 
 enum class EfficiencyClass(val value: Float, val friendlyName: String) {
     F(2.5f, "F"),

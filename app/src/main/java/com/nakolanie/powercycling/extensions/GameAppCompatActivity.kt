@@ -3,7 +3,7 @@ package com.nakolanie.powercycling.extensions
 import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.nakolanie.powercycling.back.GameContext
+import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.front.game.GameActivity
 import com.nakolanie.powercycling.front.game.Game_QueueManagementActivity
 import com.nakolanie.powercycling.front.game.Game_RoomsManagementActivity

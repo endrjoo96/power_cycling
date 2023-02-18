@@ -1,11 +1,9 @@
-package com.nakolanie.powercycling
+package com.nakolanie.powercycling.services
 
-import com.nakolanie.powercycling.Helpers.Companion.roundToDecimal
-import kotlin.math.pow
-import kotlin.math.roundToInt
-import kotlin.random.Random
+import com.nakolanie.powercycling.Room
+import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimal
 
-class EnergyDemandGovernor(val rooms: MutableList<Room>) {
+class EnergyDemandGovernorService(val rooms: MutableList<Room>) {
     private var currentDemand = 0f
 
     fun getNextDemand(): Float {

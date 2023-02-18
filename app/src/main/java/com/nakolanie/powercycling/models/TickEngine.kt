@@ -1,11 +1,12 @@
-package com.nakolanie.powercycling.back
+package com.nakolanie.powercycling.models
 
+import com.nakolanie.powercycling.enums.EngineName
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class TickEngine(
-    engineName: ENGINE_NAME = ENGINE_NAME.UNDEFINED,
+    engineName: EngineName = EngineName.UNDEFINED,
     coroutinesExecutionContext: CoroutineContext = Dispatchers.Main,
     var tickInterval: Long = 2000
 ) : Engine(engineName, coroutinesExecutionContext) {
@@ -23,7 +24,7 @@ class TickEngine(
         timeRemaining = tickInterval
     }
 
-    fun getName(): ENGINE_NAME {
+    fun getName(): EngineName {
         return engineName
     }
 
@@ -65,7 +66,7 @@ class TickEngine(
         }
     }
 
-    override fun mapToPair(): Pair<ENGINE_NAME, TickEngine> {
+    override fun mapToPair(): Pair<EngineName, TickEngine> {
         return Pair(engineName, this)
     }
 
