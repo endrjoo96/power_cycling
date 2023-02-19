@@ -10,6 +10,7 @@ import com.nakolanie.powercycling.models.*
 import com.nakolanie.powercycling.models.device.KettleDevice
 import com.nakolanie.powercycling.models.device.LightBulbDevice
 import com.nakolanie.powercycling.models.device.TvDevice
+import com.nakolanie.powercycling.services.CyclingService
 import com.nakolanie.powercycling.services.EnergyDemandGovernorService
 import com.nakolanie.powercycling.services.EngineService
 import com.nakolanie.powercycling.services.QueueService
@@ -51,13 +52,13 @@ class GameContext private constructor(
     private var progressBarCurrent: Int by getDelegate(DelegateDefinition.PROGRESS_UPDATE)
     private var energyConsumption: String by getDelegate(DelegateDefinition.ENERGY_CONSUMPTION)
     private var cyclingCharacterState: CyclingCharacterState by getDelegate(DelegateDefinition.CYCLING_CHARACTER_STATE)
+    private val cyclingService: CyclingService = CyclingService(CyclingCharacter(cyclingCharacterState))
 
     val wallet: Wallet = Wallet(getDelegate(DelegateDefinition.WALLET_STATE))
     val queueService: QueueService = QueueService(getDelegate(DelegateDefinition.QUEUE_STATE))
 
     val engineService = EngineService()
 
-    private lateinit var cyclingCharacter: CyclingCharacter
     val rooms: MutableList<Room> = mutableListOf()
 
     private val energyDemandGovernorService: EnergyDemandGovernorService =
@@ -68,7 +69,6 @@ class GameContext private constructor(
 
     fun setup() {
         setupMessages()
-        setupCycler()
         setupEngines()
         setupDefaultRoomWithDevices()
 
@@ -104,10 +104,6 @@ class GameContext private constructor(
     @SuppressLint("SetTextI18n")
     private fun setupMessages() {
         energyConsumption = "${currentBarConsumption.roundToDecimalAsString(3)} kW"
-    }
-
-    private fun setupCycler() {
-        cyclingCharacter = CyclingCharacter()
     }
 
     @SuppressLint("SetTextI18n")
@@ -157,6 +153,7 @@ class GameContext private constructor(
             })
             addEngine(Engine(EngineName.TAP_ENGINE).apply {
                 setMethod {
+                    cyclingService.cycle()
                     if (!engineService.get<TickEngine>(EngineName.PROGRESSBAR_TICK_ENGINE).paused) {
                         val current = progressBarCurrent + GameConfig.TAP_POWER
                         progressBarCurrent = if (current > progressBarMax) {
@@ -166,7 +163,6 @@ class GameContext private constructor(
                         } else {
                             current
                         }
-                        cyclingCharacterState = cyclingCharacter.cycle()
                     }
                 }
             })

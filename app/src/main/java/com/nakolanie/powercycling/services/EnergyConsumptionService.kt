@@ -1,4 +1,4 @@
 package com.nakolanie.powercycling.services
 
-class CyclerService {
+class EnergyConsumptionService {
 }
