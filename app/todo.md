@@ -30,11 +30,10 @@
     - better quality devices increase room income 
  - make generated queue (progressively harder)
 
-...
-...
-...
+`________________________v0.1.3________________________`
 
-`________________________v1.0.0________________________`
+
+`_______________________backlog________________________`
  - podczas gry istnieje mala szansa, ze mozliwy bedzie zakup jakiegos urzadzenia po 
   nizszej cenie w wyprzedazy - mozliwe jest wtedy wybranie pokoju, do ktorego to urzadzenie trafi
 
