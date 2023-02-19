@@ -10,10 +10,10 @@
         android:id="@+id/manageRoom_textView_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="Pokój"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/manageRoom_button_return"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/manageRoom_button_return"
         app:layout_constraintTop_toTopOf="@+id/manageRoom_button_return" />
 
@@ -28,14 +28,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/manageRoom_textView_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="1234"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/manageRoom_button_return"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/manageRoom_button_return"
+        app:layout_constraintVertical_bias="0.523" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/manageRoom_textView_balance"
+        app:layout_constraintEnd_toStartOf="@+id/manageRoom_textView_balance"
+        app:layout_constraintTop_toTopOf="@+id/manageRoom_textView_balance"
+        app:layout_constraintVertical_bias="0.538" />
+
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="409dp"
         android:layout_height="673dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manageRoom_button_return">
+        app:layout_constraintTop_toBottomOf="@+id/manageRoom_button_return"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:id="@+id/manageRoom_linearLayout_devicesList"
@@ -43,4 +68,5 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -63,7 +63,7 @@ class Room(val name: String) {
         }
     }
 
-    fun expandMaxPeople() {
+    fun increaseCapacity() {
         roomCapacity++
     }
 

@@ -4,14 +4,16 @@ import android.annotation.SuppressLint
 import com.nakolanie.powercycling.configs.GameConfig
 import com.nakolanie.powercycling.converters.ProgressBarConverter
 import com.nakolanie.powercycling.delegates.DelegateService
-import com.nakolanie.powercycling.enums.*
+import com.nakolanie.powercycling.enums.DelegateDefinition
+import com.nakolanie.powercycling.enums.EfficiencyClass
+import com.nakolanie.powercycling.enums.EngineName
+import com.nakolanie.powercycling.enums.Quality
 import com.nakolanie.powercycling.exceptions.ContextNotInitiatedException
 import com.nakolanie.powercycling.models.*
 import com.nakolanie.powercycling.models.device.KettleDevice
 import com.nakolanie.powercycling.models.device.LightBulbDevice
 import com.nakolanie.powercycling.models.device.TvDevice
 import com.nakolanie.powercycling.services.*
-import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimalAsString
 import kotlin.properties.ReadWriteProperty
 import kotlin.random.Random
 
@@ -210,32 +212,3 @@ class GameContext private constructor(
         return delegate
     }
 }
-
-
-/*
-        Room().apply {
-            this.insertDevice(Device("Microwave", EfficiencyClass.D, 0.9f))
-            this.insertDevice(
-                Device(
-                    "Electric kettle",
-                    EfficiencyClass.C,
-                    2.2f,
-                    enabledByMaxTicks = 2
-                )
-            )
-            this.insertDevice(
-                Device(
-                    "Vacuum cleaner",
-                    EfficiencyClass.B,
-                    1.7f,
-                    enabledByMaxTicks = 4
-                )
-            )
-            this.insertDevice(Device("TV", EfficiencyClass.B, 0.2f))
-            this.insertDevice(Device("Desktop computer", EfficiencyClass.C, 0.5f))
-            this.insertDevice(Device("LED light bulb", EfficiencyClass.Ap, 0.01f))
-            this.insertDevice(Device("Laptop", EfficiencyClass.B, 0.07f, isOwnedByPlayer = false))
-            this.upgradeMaxPeopleCount(2)
-            this.bookRoom(3)
-        }
-*/

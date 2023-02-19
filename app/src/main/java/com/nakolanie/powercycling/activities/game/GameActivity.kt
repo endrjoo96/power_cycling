@@ -46,7 +46,7 @@ class GameActivity : GameAppCompatActivity() {
             finishMethod = { finish() },
             delegateServicesMap
         )
-        gameActivity_textView_wallet.text = context.wallet.check().roundToDecimalAsString(2)
+        gameActivity_textView_wallet.text = context.wallet.check().toString()
         context.setup()
         context.runTickEngines()
     }

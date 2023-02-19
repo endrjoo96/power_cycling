@@ -1,5 +1,6 @@
 package com.nakolanie.powercycling.activities.game
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import com.nakolanie.powercycling.R
@@ -8,6 +9,7 @@ import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.extensions.GameAppCompatActivity
 import com.nakolanie.powercycling.models.device.Device
 import kotlinx.android.synthetic.main.activity_game_manage_device.*
+import kotlinx.android.synthetic.main.activity_game_manage_room.*
 
 class Game_ManageDevice : GameAppCompatActivity() {
     private lateinit var device: Device
@@ -24,14 +26,16 @@ class Game_ManageDevice : GameAppCompatActivity() {
         refresh()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun refresh() {
-        manageDevice_textView_title.setText("${room.name} >> ${device.getName()}")
-        manageDevice_textView_efficiencyClass.setText(device.efficiencyClass.friendlyName)
-        manageDevice_textView_overallEnergyConsumption.setText("${(device.getPowerConsumption()*1000).toInt()} W")
+        manageDevice_textView_balance.text = GameContext.get().wallet.check().toString()
+        manageDevice_textView_title.text = "${room.name} >> ${device.getName()}"
+        manageDevice_textView_efficiencyClass.text = device.efficiencyClass.friendlyName
+        manageDevice_textView_overallEnergyConsumption.text = "${(device.getPowerConsumption()*1000).toInt()} W"
         setControlsBasedOnOwnership()
     }
 
-    fun setControlsBasedOnOwnership() {
+    private fun setControlsBasedOnOwnership() {
         manageDevice_button_efficiencyClass.isEnabled = device.isOwnedByPlayer
         manageDevice_textView_notYourPropertyAlert.visibility =
             if (device.isOwnedByPlayer) View.GONE else View.VISIBLE

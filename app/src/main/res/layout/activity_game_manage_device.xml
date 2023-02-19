@@ -6,14 +6,74 @@
     android:layout_height="match_parent"
     tools:context=".activities.game.Game_ManageDevice">
 
+    <Button
+        android:id="@+id/manageDevice_button_quality"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:onClick="onUpgradeEfficiencyClass"
+        android:text="Ulepsz"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:layout_editor_absoluteX="316dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/manageDevice_button_quality"
+        app:layout_constraintStart_toStartOf="@+id/manageDevice_button_quality"
+        app:layout_constraintTop_toBottomOf="@+id/manageDevice_button_quality">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="($" />
+
+        <TextView
+            android:id="@+id/manageDevice_textView_qualityUpgradeCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1234" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=")" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/manageDevice_textView_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="1234"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/manageDevice_button_return"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/manageDevice_button_return" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/manageDevice_textView_balance"
+        app:layout_constraintEnd_toStartOf="@+id/manageDevice_textView_balance"
+        app:layout_constraintTop_toTopOf="@+id/manageDevice_textView_balance"
+        app:layout_constraintVertical_bias="0.538" />
+
     <TextView
         android:id="@+id/manageDevice_textView_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="Pokój >> Urządzenie"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/manageDevice_button_return"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/manageDevice_button_return"
         app:layout_constraintTop_toTopOf="@+id/manageDevice_button_return" />
 
@@ -32,23 +92,23 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:text="Klasa energetyczna"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/manageDevice_button_efficiencyClass"
+        app:layout_constraintBottom_toBottomOf="@+id/manageDevice_textView_efficiencyClass"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/manageDevice_button_efficiencyClass" />
+        app:layout_constraintTop_toTopOf="@+id/manageDevice_textView_efficiencyClass" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:text="Maksymalny pobór prądu:"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manageDevice_button_efficiencyClass" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <TextView
         android:id="@+id/manageDevice_textView_efficiencyClass"
@@ -86,12 +146,62 @@
         android:id="@+id/manageDevice_textView_notYourPropertyAlert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:text="Urządzenie nie jest Twoją własnością!"
         android:textColor="#AEAC2B2B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/manageDevice_textView_overallEnergyConsumption" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/manageDevice_button_efficiencyClass"
+        app:layout_constraintStart_toStartOf="@+id/manageDevice_button_efficiencyClass"
+        app:layout_constraintTop_toBottomOf="@+id/manageDevice_button_efficiencyClass">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="($" />
+
+        <TextView
+            android:id="@+id/manageDevice_textView_qualityUpgradeCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1234" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=")" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/manageDevice_button_quality">
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jakość"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/manageDevice_textView_efficiencyClass4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="20sp" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

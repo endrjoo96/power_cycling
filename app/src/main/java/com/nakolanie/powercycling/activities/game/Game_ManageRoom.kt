@@ -17,30 +17,29 @@ class Game_ManageRoom : GameAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_manage_room)
         val roomIndex: Int = intent.extras!!.getInt("roomIndex")
-
         room = GameContext.get().rooms[roomIndex]
 
-        manageRoom_textView_title.setText(room.name)
+        manageRoom_textView_title.text = room.name
+        manageRoom_textView_balance.text = GameContext.get().wallet.check().toString()
 
-        addDevicesToScrollView()
+        refresh()
     }
 
-    private fun addDevicesToScrollView() {
+    private fun refresh() {
         manageRoom_linearLayout_devicesList.removeAllViews()
+        addButtonToUpgradeRoomCapacity()
+
         room.devices.forEachIndexed { index, device ->
             run {
                 manageRoom_linearLayout_devicesList.addView(Button(this).also {
                     it.text = device.getName()
-                    it.setOnClickListener(object : View.OnClickListener {
-                        override fun onClick(p0: View?) {
-                            p0?.let { openDeviceSettings(index) }
-                        }
-                    })
+                    it.setOnClickListener { openDeviceSettings(index) }
                 })
             }
         }
 
         addButtonToBuyDevice()
+
 
         /*TODO
             przycisk do dodawania nowych urządzeń
@@ -59,11 +58,25 @@ class Game_ManageRoom : GameAppCompatActivity() {
     private fun addButtonToBuyDevice() {
         manageRoom_linearLayout_devicesList.addView(Button(this).also {
             it.text = "+ Dodaj urządzenie"
-            it.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(p0: View?) {
-                    p0?.let { openNewItemModal(p0) }
-                }
-            })
+            it.setOnClickListener { p0 -> p0?.let { openNewItemModal(p0) } }
+        })
+    }
+
+    private fun addButtonToUpgradeRoomCapacity() {
+        val roomCapacity = room.getRoomCapacity()
+        val upgradeCost = 10
+        manageRoom_linearLayout_devicesList.addView(Button(this).also {
+            it.text = String.format(
+                "+ Dodaj miejsce [%d->%d] ($%d)",
+                roomCapacity,
+                roomCapacity + 1,
+                upgradeCost
+            )
+            it.setOnClickListener {
+                room.increaseCapacity()
+                GameContext.get().wallet.pay(upgradeCost)
+                refresh()
+            }
         })
     }
 
