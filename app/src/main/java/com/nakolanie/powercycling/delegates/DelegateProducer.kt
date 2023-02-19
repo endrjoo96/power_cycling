@@ -12,7 +12,7 @@ abstract class DelegateProducer<T> {
         )
     }
 
-    fun produceDelegate(consumer: (T) -> Unit): DelegateService<T> =
+    private fun produceDelegate(consumer: (T) -> Unit): DelegateService<T> =
         DelegateService(delegateDefinition, initialObservableState, consumer)
 
 }

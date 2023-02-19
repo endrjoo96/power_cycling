@@ -10,10 +10,7 @@ import com.nakolanie.powercycling.models.*
 import com.nakolanie.powercycling.models.device.KettleDevice
 import com.nakolanie.powercycling.models.device.LightBulbDevice
 import com.nakolanie.powercycling.models.device.TvDevice
-import com.nakolanie.powercycling.services.CyclingService
-import com.nakolanie.powercycling.services.EnergyDemandGovernorService
-import com.nakolanie.powercycling.services.EngineService
-import com.nakolanie.powercycling.services.QueueService
+import com.nakolanie.powercycling.services.*
 import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimalAsString
 import kotlin.properties.ReadWriteProperty
 import kotlin.random.Random
@@ -49,13 +46,15 @@ class GameContext private constructor(
     }
 
 
-    private var progressBarCurrent: Int by getDelegate(DelegateDefinition.PROGRESS_UPDATE)
-    private var energyConsumption: String by getDelegate(DelegateDefinition.ENERGY_CONSUMPTION)
-    private var cyclingCharacterState: CyclingCharacterState by getDelegate(DelegateDefinition.CYCLING_CHARACTER_STATE)
-    private val cyclingService: CyclingService = CyclingService(CyclingCharacter(cyclingCharacterState))
+    private var progressBarCurrent: Int by getPropertyToDelegate(DelegateDefinition.PROGRESS_UPDATE)
+    val energyConsumptionService =
+        EnergyConsumptionService(getDelegate(DelegateDefinition.ENERGY_CONSUMPTION))
+    private val cyclingService =
+        CyclingService(CyclingCharacter(getDelegate(DelegateDefinition.CYCLING_CHARACTER_STATE)))
 
-    val wallet: Wallet = Wallet(getDelegate(DelegateDefinition.WALLET_STATE))
-    val queueService: QueueService = QueueService(getDelegate(DelegateDefinition.QUEUE_STATE))
+    val wallet: Wallet = Wallet(getPropertyToDelegate(DelegateDefinition.WALLET_STATE))
+    val queueService: QueueService =
+        QueueService(getPropertyToDelegate(DelegateDefinition.QUEUE_STATE))
 
     val engineService = EngineService()
 
@@ -64,8 +63,7 @@ class GameContext private constructor(
     private val energyDemandGovernorService: EnergyDemandGovernorService =
         EnergyDemandGovernorService(rooms)
 
-    val initialBarConsumption = energyDemandGovernorService.getCurrentDemand()
-    var currentBarConsumption = initialBarConsumption
+    var currentConsumption = energyDemandGovernorService.getCurrentDemand()
 
     fun setup() {
         setupMessages()
@@ -103,7 +101,7 @@ class GameContext private constructor(
 
     @SuppressLint("SetTextI18n")
     private fun setupMessages() {
-        energyConsumption = "${currentBarConsumption.roundToDecimalAsString(3)} kW"
+        energyConsumptionService.write(currentConsumption)
     }
 
     @SuppressLint("SetTextI18n")
@@ -113,9 +111,8 @@ class GameContext private constructor(
                 tickInterval = 100
                 setMethod {
                     if (progressBarCurrent > 0) {
-                        progressBarCurrent -= ProgressBarConverter.convertConsumption(
-                            currentBarConsumption
-                        )
+                        progressBarCurrent -=
+                            ProgressBarConverter.convertConsumption(currentConsumption)
                     } else {
                         finishMethod()
                     }
@@ -124,9 +121,8 @@ class GameContext private constructor(
             addEngine(TickEngine(EngineName.ENERGY_CONSUMPTION_TICK_ENGINE).apply {
                 tickInterval = 2500
                 setMethod {
-                    currentBarConsumption = energyDemandGovernorService.getNextDemand()
-                    energyConsumption = "${currentBarConsumption.roundToDecimalAsString(3)} kW"
-
+                    currentConsumption = energyDemandGovernorService.getNextDemand()
+                    energyConsumptionService.write(currentConsumption)
                 }
             })
             addEngine(TickEngine(EngineName.RECEPTION_QUEUE_TICK_ENGINE).apply {
@@ -204,8 +200,14 @@ class GameContext private constructor(
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun <T> getDelegate(anEnum: DelegateDefinition): ReadWriteProperty<Any?, T> {
+    private fun <T> getPropertyToDelegate(anEnum: DelegateDefinition): ReadWriteProperty<Any?, T> {
+        delegateServicesMap[anEnum]!!.getObservable()
         return delegateServicesMap[anEnum]!!.getObservable() as ReadWriteProperty<Any?, T>
+    }
+
+    private fun <T> getDelegate(def: DelegateDefinition): T {
+        val delegate: T by getPropertyToDelegate(def)
+        return delegate
     }
 }
 
