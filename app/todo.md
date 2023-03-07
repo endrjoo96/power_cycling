@@ -5,11 +5,14 @@
  # when clicked, only available rooms are shown in right panel
  # when room button is clicked, bundle is booked into the room
  > [show current wallet balance in room and device management views]
+    -- poprawić formatowanie (jest 105.6, powinno być 105,60 - jak w głownym ekranie)
  - make adding devices to rooms
     - should show modal
     - should allow selecting device type, quality and efficiency (spinners?) 
  > [upgrading rooms capacity]
  > upgrading quality of devices
+ > fix bugs
+    - zapotrzebowanie na prąd nie odświeża się
 
 `________________________v0.1.1________________________`
  - implementing cost for upgrades
@@ -43,4 +46,5 @@
  - task waiting to complete
  > task implementation in progress
  > [task implemented, but not tested]
+ --- corrections
  # task implemented and tested

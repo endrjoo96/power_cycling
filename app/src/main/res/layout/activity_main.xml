@@ -21,11 +21,11 @@
         android:id="@+id/mainActivity_button_start"
         android:layout_width="117dp"
         android:layout_height="48dp"
-        android:layout_marginStart="144dp"
         android:layout_marginTop="124dp"
         android:onClick="onStartButtonClick"
         android:text="Start"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/mainActivity_textView_title"
+        app:layout_constraintStart_toStartOf="@+id/mainActivity_textView_title"
         app:layout_constraintTop_toBottomOf="@+id/mainActivity_textView_title" />
 
     <Button
@@ -35,6 +35,7 @@
         android:layout_marginTop="16dp"
         android:onClick="onExitButtonClick"
         android:text="Wyjdź"
+        app:layout_constraintEnd_toEndOf="@+id/mainActivity_button_start"
         app:layout_constraintStart_toStartOf="@+id/mainActivity_button_start"
         app:layout_constraintTop_toBottomOf="@+id/mainActivity_button_start" />
 

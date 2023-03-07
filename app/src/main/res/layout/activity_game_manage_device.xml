@@ -13,8 +13,8 @@
         android:layout_marginTop="24dp"
         android:onClick="onUpgradeEfficiencyClass"
         android:text="Ulepsz"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:layout_editor_absoluteX="316dp" />
+        app:layout_constraintEnd_toEndOf="@+id/manageDevice_button_efficiencyClass"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="@+id/manageDevice_button_quality">
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/textView91"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="($" />
@@ -169,13 +169,13 @@
             android:text="($" />
 
         <TextView
-            android:id="@+id/manageDevice_textView_qualityUpgradeCost"
+            android:id="@+id/manageDevice_textView_efficiencyClassUpgradeCost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1234" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/textView92"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=")" />
