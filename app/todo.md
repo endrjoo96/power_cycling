@@ -15,6 +15,8 @@
     - zapotrzebowanie na prąd nie odświeża się
 
 `________________________v0.1.1________________________`
+
+ - modify devices names enum - use localization feature instead of hard-coded strings
  - implementing cost for upgrades
     - create service for cost calculations
         - should calculate new devices cost (lower than upgrading it from scratch)
@@ -34,6 +36,9 @@
  - make generated queue (progressively harder)
 
 `________________________v0.1.3________________________`
+- add brands of devices and maximum tiers of upgrading ability (lowend brands should have limit to upgrades)
+- make balance of economy, including brands of devices
+
 
 
 `_______________________backlog________________________`
