@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:onClick="onUpgradeEfficiencyClass"
+        android:onClick="onUpgradeQuality"
         android:text="Ulepsz"
         app:layout_constraintEnd_toEndOf="@+id/manageDevice_button_efficiencyClass"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
@@ -198,7 +198,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/manageDevice_textView_efficiencyClass4"
+            android:id="@+id/manageDevice_textView_quality"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"

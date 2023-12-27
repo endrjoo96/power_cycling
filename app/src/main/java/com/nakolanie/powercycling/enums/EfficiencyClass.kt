@@ -1,6 +1,6 @@
 package com.nakolanie.powercycling.enums
 
-enum class EfficiencyClass(val value: Float, val friendlyName: String) {
+enum class EfficiencyClass(val efficiencyMultiplicator: Float, val friendlyName: String) {
     F(2.5f, "F"),
     E(2f, "E"),
     D(1.5f, "D"),
