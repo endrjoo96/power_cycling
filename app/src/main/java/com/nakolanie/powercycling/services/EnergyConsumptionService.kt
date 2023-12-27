@@ -1,9 +1,11 @@
 package com.nakolanie.powercycling.services
 
 import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimalAsString
+import kotlin.properties.ReadWriteProperty
 
-class EnergyConsumptionService(private var energyConsumption: String) {
+class EnergyConsumptionService(energyConsumptionDelegate: ReadWriteProperty<Any?, String>) {
     private val unit: String = "kW"
+    private var energyConsumption: String by energyConsumptionDelegate
 
     private fun writeRaw(rawValue: String){
         energyConsumption = rawValue

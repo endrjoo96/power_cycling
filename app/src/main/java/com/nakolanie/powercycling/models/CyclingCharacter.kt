@@ -1,7 +1,10 @@
 package com.nakolanie.powercycling.models
 
 import com.nakolanie.powercycling.enums.CyclingCharacterState
+import kotlin.properties.ReadWriteProperty
 
-data class CyclingCharacter(
-    var currentState: CyclingCharacterState = CyclingCharacterState.CYCLE_FAST_1
-)
+class CyclingCharacter(
+    currentStateDelegate: ReadWriteProperty<Any?, CyclingCharacterState>
+) {
+    var currentState: CyclingCharacterState by currentStateDelegate
+}

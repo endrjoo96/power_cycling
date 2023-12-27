@@ -49,10 +49,10 @@ class GameContext private constructor(
 
 
     private var progressBarCurrent: Int by getPropertyToDelegate(DelegateDefinition.PROGRESS_UPDATE)
-    val energyConsumptionService =
-        EnergyConsumptionService(getDelegate(DelegateDefinition.ENERGY_CONSUMPTION))
+    private val energyConsumptionService =
+        EnergyConsumptionService(getPropertyToDelegate(DelegateDefinition.ENERGY_CONSUMPTION))
     private val cyclingService =
-        CyclingService(CyclingCharacter(getDelegate(DelegateDefinition.CYCLING_CHARACTER_STATE)))
+        CyclingService(CyclingCharacter(getPropertyToDelegate(DelegateDefinition.CYCLING_CHARACTER_STATE)))
 
     val wallet: Wallet = Wallet(getPropertyToDelegate(DelegateDefinition.WALLET_STATE))
     val queueService: QueueService =
@@ -106,8 +106,13 @@ class GameContext private constructor(
         energyConsumptionService.write(currentConsumption)
     }
 
+
+
     @SuppressLint("SetTextI18n")
     private fun setupEngines() {
+        //przycisk serwisowy, do usunięcia lub ukrycia
+
+
         engineService.apply {
             addEngine(TickEngine(EngineName.PROGRESSBAR_TICK_ENGINE).apply {
                 tickInterval = 100
@@ -151,19 +156,34 @@ class GameContext private constructor(
             })
             addEngine(Engine(EngineName.TAP_ENGINE).apply {
                 setMethod {
-                    cyclingService.cycle()
-                    if (!engineService.get<TickEngine>(EngineName.PROGRESSBAR_TICK_ENGINE).paused) {
-                        val current = progressBarCurrent + GameConfig.TAP_POWER
-                        progressBarCurrent = if (current > progressBarMax) {
-                            val overprod = current - progressBarMax
-                            wallet.put(overprod / 1000f)
-                            progressBarMax
-                        } else {
-                            current
-                        }
-                    }
+//                    cyclingService.cycle()
+//                    if (!engineService.get<TickEngine>(EngineName.PROGRESSBAR_TICK_ENGINE).paused) {
+//                        val current = progressBarCurrent + GameConfig.TAP_POWER
+//                        progressBarCurrent = if (current > progressBarMax) {
+//                            val overprod = current - progressBarMax
+//                            wallet.put(overprod / 1000f)
+//                            progressBarMax
+//                        } else {
+//                            current
+//                        }
+//                    }
+                    actionForTap()
                 }
             })
+        }
+    }
+
+    fun actionForTap() {
+        cyclingService.cycle()
+        if (!engineService.get<TickEngine>(EngineName.PROGRESSBAR_TICK_ENGINE).paused) {
+            val current = progressBarCurrent + GameConfig.TAP_POWER
+            progressBarCurrent = if (current > progressBarMax) {
+                val overprod = current - progressBarMax
+                wallet.put(overprod / 1000f)
+                progressBarMax
+            } else {
+                current
+            }
         }
     }
 
@@ -205,10 +225,5 @@ class GameContext private constructor(
     private fun <T> getPropertyToDelegate(anEnum: DelegateDefinition): ReadWriteProperty<Any?, T> {
         delegateServicesMap[anEnum]!!.getObservable()
         return delegateServicesMap[anEnum]!!.getObservable() as ReadWriteProperty<Any?, T>
-    }
-
-    private fun <T> getDelegate(def: DelegateDefinition): T {
-        val delegate: T by getPropertyToDelegate(def)
-        return delegate
     }
 }
