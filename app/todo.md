@@ -13,7 +13,8 @@
  > upgrading quality of devices
  > fix bugs
     # zapotrzebowanie na prąd nie odświeża się
-    > portfel nie odświeża się podczas upgrade'owania pokoju
+    # grafika postaci nie odświeża się
+    # portfel nie odświeża się podczas upgrade'owania pokoju
 
 `________________________v0.1.1________________________`
 

@@ -11,11 +11,12 @@ class Wallet(walletAmountDelegate: ReadWriteProperty<Any?, Float>){
         return this
     }
 
-    fun pay(amount: Number): Wallet {
+    fun pay(amount: Number): Boolean {
         if (isEnough(amount)){
             cash -= amount.toFloat().roundToDecimal(2)
+            return true
         }
-        return this
+        return false
     }
 
     fun check(): Float {

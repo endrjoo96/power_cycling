@@ -8,24 +8,27 @@ import com.nakolanie.powercycling.R
 import com.nakolanie.powercycling.models.Room
 import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.extensions.GameAppCompatActivity
+import com.nakolanie.powercycling.models.Wallet
 import kotlinx.android.synthetic.main.activity_game_manage_room.*
 
 class Game_ManageRoom : GameAppCompatActivity() {
     private lateinit var room: Room
+    private lateinit var wallet: Wallet
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_manage_room)
         val roomIndex: Int = intent.extras!!.getInt("roomIndex")
         room = GameContext.get().rooms[roomIndex]
+        wallet = GameContext.get().wallet
 
         manageRoom_textView_title.text = room.name
-        manageRoom_textView_balance.text = GameContext.get().wallet.check().toString()
 
         refresh()
     }
 
     private fun refresh() {
+        manageRoom_textView_balance.text = wallet.check().toString()
         manageRoom_linearLayout_devicesList.removeAllViews()
         addButtonToUpgradeRoomCapacity()
 
@@ -74,7 +77,7 @@ class Game_ManageRoom : GameAppCompatActivity() {
             )
             it.setOnClickListener {
                 room.increaseCapacity()
-                GameContext.get().wallet.pay(upgradeCost)
+                wallet.pay(upgradeCost)
                 refresh()
             }
         })

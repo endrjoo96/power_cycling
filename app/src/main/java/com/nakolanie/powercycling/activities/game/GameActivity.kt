@@ -96,17 +96,5 @@ class GameActivity : GameAppCompatActivity() {
             GameContext.get().resumeTickEngines()
         }
     }
-
-
-    fun onDevButtonClick(view: View) {
-        CoroutineScope(Dispatchers.Main).launch {
-            var pressed = true
-            while (pressed) {
-
-                delay(100)
-                pressed = false
-            }
-        }
-    }
 }
 
