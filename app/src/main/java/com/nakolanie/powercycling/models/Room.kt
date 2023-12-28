@@ -1,16 +1,16 @@
 package com.nakolanie.powercycling.models
 
-import com.nakolanie.powercycling.models.device.Device
 import java.util.stream.Collectors
 import kotlin.random.Random
 
-class Room(val name: String) {
-    constructor() : this("Room ${getNextInSequence()}")
+class Room(private var roomCapacity: Int, val name: String) {
+    constructor() : this(1)
+    constructor(roomCapacity: Int) : this(roomCapacity, "Room ${getNextInSequence()}")
 
     val devices: MutableList<Device> = mutableListOf()
     private var peopleCurrently = 0
     private var peopleBooked = 0
-    private var roomCapacity = 1
+//    private var roomCapacity = 1
 
     fun getCurrentEnergyDemand(): Float {
         var powerConsumption = 0f

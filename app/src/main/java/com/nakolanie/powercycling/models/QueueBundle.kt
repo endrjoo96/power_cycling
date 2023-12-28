@@ -1,7 +1,5 @@
 package com.nakolanie.powercycling.models
 
-import com.nakolanie.powercycling.models.device.Device
-
 class QueueBundle(
     val bundleSize: Int,
     val minimalDevicesRequirements: List<Device>,

@@ -25,6 +25,8 @@
     # zapotrzebowanie na prąd nie odświeża się
     # grafika postaci nie odświeża się
     # portfel nie odświeża się podczas upgrade'owania pokoju
+    # gotowe urządzenia są tworzone raz i kopiowane przez referencję, należy tworzyć nowe 
+      urządzenia przy każdej operacji get()
 
 `________________________v0.1.1________________________`
 

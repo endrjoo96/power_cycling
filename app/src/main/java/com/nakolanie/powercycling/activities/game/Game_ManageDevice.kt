@@ -7,7 +7,7 @@ import com.nakolanie.powercycling.R
 import com.nakolanie.powercycling.models.Room
 import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.extensions.GameAppCompatActivity
-import com.nakolanie.powercycling.models.device.Device
+import com.nakolanie.powercycling.models.Device
 import kotlinx.android.synthetic.main.activity_game_manage_device.*
 import kotlinx.android.synthetic.main.activity_game_manage_room.*
 

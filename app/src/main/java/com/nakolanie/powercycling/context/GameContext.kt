@@ -8,11 +8,9 @@ import com.nakolanie.powercycling.enums.DelegateDefinition
 import com.nakolanie.powercycling.enums.EfficiencyClass
 import com.nakolanie.powercycling.enums.EngineName
 import com.nakolanie.powercycling.enums.Quality
+import com.nakolanie.powercycling.enums.ReadyDevice
 import com.nakolanie.powercycling.exceptions.ContextNotInitiatedException
 import com.nakolanie.powercycling.models.*
-import com.nakolanie.powercycling.models.device.KettleDevice
-import com.nakolanie.powercycling.models.device.LightBulbDevice
-import com.nakolanie.powercycling.models.device.TvDevice
 import com.nakolanie.powercycling.services.*
 import kotlin.properties.ReadWriteProperty
 import kotlin.random.Random
@@ -82,8 +80,8 @@ class GameContext private constructor(
             QueueBundle(
                 1,
                 listOf(
-                    LightBulbDevice(),
-                    KettleDevice().also {
+                    ReadyDevice.LED_LIGHT.create(),
+                    ReadyDevice.KETTLE.create().also {
                         it.efficiencyClass = EfficiencyClass.F
                         it.quality = Quality.USED_LOWEND
                     })
@@ -93,7 +91,7 @@ class GameContext private constructor(
             QueueBundle(
                 4,
                 listOf(
-                    TvDevice().also {
+                    ReadyDevice.TV.create().also {
                         it.efficiencyClass = EfficiencyClass.A
                         it.quality = Quality.NEW_GOOD
                     })
@@ -140,8 +138,8 @@ class GameContext private constructor(
                             QueueBundle(
                                 Random.nextInt(1, 4),
                                 listOf(
-                                    LightBulbDevice(),
-                                    KettleDevice().also {
+                                    ReadyDevice.LED_LIGHT.create(),
+                                    ReadyDevice.KETTLE.create().also {
                                         it.efficiencyClass = EfficiencyClass.F
                                         it.quality = Quality.USED_LOWEND
                                     })
@@ -191,15 +189,26 @@ class GameContext private constructor(
         rooms.addAll(
             listOf(
                 Room().also { room ->
-                    room.insertDevice(LightBulbDevice().also {
+                    room.insertDevice(ReadyDevice.LED_LIGHT.create().also {
                         it.efficiencyClass = EfficiencyClass.E
                         it.quality = Quality.NEW_LOWEND
                     })
-                    room.insertDevice(KettleDevice().also {
+                    room.insertDevice(ReadyDevice.KETTLE.create().also {
                         it.efficiencyClass = EfficiencyClass.F
                         it.quality = Quality.USED_LOWEND
                     })
-                })
+                },
+                Room(4).also { room ->
+                    room.insertDevice(ReadyDevice.TV.create().also {
+                        it.efficiencyClass = EfficiencyClass.B
+                        it.quality = Quality.NEW_TOP
+                    })
+                    room.insertDevice(ReadyDevice.KETTLE.create().also {
+                        it.efficiencyClass = EfficiencyClass.F
+                        it.quality = Quality.USED_LOWEND
+                    })
+                }
+                )
         )
     }
 
