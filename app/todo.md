@@ -14,8 +14,8 @@
  # when room button is clicked, bundle is booked into the room
  > show current wallet balance in room and device management views
     # stan portfela w ekranie zarzadzania pokojem
-    > stan portfela w ekranie ulepszania urządzenia
-    - poprawić formatowanie (jest 105.6, powinno być 105,60 - jak w głownym ekranie)
+    # stan portfela w ekranie ulepszania urządzenia
+    # poprawić formatowanie (jest 105.6, powinno być 105,60 - jak w głownym ekranie)
  - make adding devices to rooms
     - should show modal
     - should allow selecting device type, quality and efficiency (spinners?) 
