@@ -9,6 +9,7 @@ import com.nakolanie.powercycling.models.Room
 import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.extensions.GameAppCompatActivity
 import com.nakolanie.powercycling.models.Wallet
+import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimalAsString
 import kotlinx.android.synthetic.main.activity_game_manage_room.*
 
 class Game_ManageRoom : GameAppCompatActivity() {
@@ -28,7 +29,7 @@ class Game_ManageRoom : GameAppCompatActivity() {
     }
 
     private fun refresh() {
-        manageRoom_textView_balance.text = wallet.check().toString()
+        manageRoom_textView_balance.text = wallet.checkAsString()
         manageRoom_linearLayout_devicesList.removeAllViews()
         addButtonToUpgradeRoomCapacity()
 

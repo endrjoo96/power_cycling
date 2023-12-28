@@ -1,6 +1,7 @@
 package com.nakolanie.powercycling.models
 
 import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimal
+import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimalAsString
 import kotlin.properties.ReadWriteProperty
 
 class Wallet(walletAmountDelegate: ReadWriteProperty<Any?, Float>){
@@ -21,6 +22,10 @@ class Wallet(walletAmountDelegate: ReadWriteProperty<Any?, Float>){
 
     fun check(): Float {
         return cash.roundToDecimal(2)
+    }
+
+    fun checkAsString(): String {
+        return check().roundToDecimalAsString(2)
     }
 
     fun isEnough(amount: Number): Boolean {

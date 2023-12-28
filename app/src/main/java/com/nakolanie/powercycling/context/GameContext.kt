@@ -105,70 +105,59 @@ class GameContext private constructor(
     }
 
 
-
     @SuppressLint("SetTextI18n")
     private fun setupEngines() {
-        //przycisk serwisowy, do usunięcia lub ukrycia
-
-
         engineService.apply {
             addEngine(TickEngine(EngineName.PROGRESSBAR_TICK_ENGINE).apply {
                 tickInterval = 100
-                setMethod {
-                    if (progressBarCurrent > 0) {
-                        progressBarCurrent -=
-                            ProgressBarConverter.convertConsumption(currentConsumption)
-                    } else {
-                        finishMethod()
-                    }
-                }
+                setMethod { actionForProgressBarTick() }
             })
             addEngine(TickEngine(EngineName.ENERGY_CONSUMPTION_TICK_ENGINE).apply {
                 tickInterval = 2500
-                setMethod {
-                    currentConsumption = energyDemandGovernorService.getNextDemand()
-                    energyConsumptionService.write(currentConsumption)
-                }
+                setMethod { actionForEnergyConsumptionTick() }
             })
             addEngine(TickEngine(EngineName.RECEPTION_QUEUE_TICK_ENGINE).apply {
                 tickInterval = 1000
-                setMethod {
-                    if (Random.nextFloat() <= GameConfig.NEW_PERSON_IN_QUEUE_CHANCE) {
-                        queueService.addToQueue(
-                            QueueBundle(
-                                Random.nextInt(1, 4),
-                                listOf(
-                                    ReadyDevice.LED_LIGHT.create(),
-                                    ReadyDevice.KETTLE.create().also {
-                                        it.efficiencyClass = EfficiencyClass.F
-                                        it.quality = Quality.USED_LOWEND
-                                    })
-                            )
-                        )
-                        //todo stopniowo zwiekszac wymagania co do sprzetow
-                    }
-                    val annoyedBundles =
-                        queueService.removePatienceAndReturnEntriesWithoutPatience()
-                    queueService.removeFromQueue(annoyedBundles)
-                }
+                setMethod { actionForReceptionQueueTick() }
             })
             addEngine(Engine(EngineName.TAP_ENGINE).apply {
-                setMethod {
-//                    cyclingService.cycle()
-//                    if (!engineService.get<TickEngine>(EngineName.PROGRESSBAR_TICK_ENGINE).paused) {
-//                        val current = progressBarCurrent + GameConfig.TAP_POWER
-//                        progressBarCurrent = if (current > progressBarMax) {
-//                            val overprod = current - progressBarMax
-//                            wallet.put(overprod / 1000f)
-//                            progressBarMax
-//                        } else {
-//                            current
-//                        }
-//                    }
-                    actionForTap()
-                }
+                setMethod { actionForTap() }
             })
         }
+    }
+
+    private fun actionForProgressBarTick() {
+        if (progressBarCurrent > 0) {
+            progressBarCurrent -=
+                ProgressBarConverter.convertConsumption(currentConsumption)
+        } else {
+            finishMethod()
+        }
+    }
+
+    private fun actionForEnergyConsumptionTick() {
+        currentConsumption = energyDemandGovernorService.getNextDemand()
+        energyConsumptionService.write(currentConsumption)
+    }
+
+    private fun actionForReceptionQueueTick() {
+        if (Random.nextFloat() <= GameConfig.NEW_PERSON_IN_QUEUE_CHANCE) {
+            queueService.addToQueue(
+                QueueBundle(
+                    Random.nextInt(1, 4),
+                    listOf(
+                        ReadyDevice.LED_LIGHT.create(),
+                        ReadyDevice.KETTLE.create().also {
+                            it.efficiencyClass = EfficiencyClass.F
+                            it.quality = Quality.USED_LOWEND
+                        })
+                )
+            )
+            //todo stopniowo zwiekszac wymagania co do sprzetow
+        }
+        val annoyedBundles =
+            queueService.removePatienceAndReturnEntriesWithoutPatience()
+        queueService.removeFromQueue(annoyedBundles)
     }
 
     fun actionForTap() {
@@ -208,7 +197,7 @@ class GameContext private constructor(
                         it.quality = Quality.USED_LOWEND
                     })
                 }
-                )
+            )
         )
     }
 
@@ -218,12 +207,10 @@ class GameContext private constructor(
 
     fun pauseTickEngines() {
         engineService.getTickEngines().forEach { it.pause() }
-
     }
 
     fun resumeTickEngines() {
         engineService.getTickEngines().forEach { it.resume() }
-
     }
 
     fun stopTickEngines() {

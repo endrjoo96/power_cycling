@@ -8,6 +8,7 @@ import com.nakolanie.powercycling.models.Room
 import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.extensions.GameAppCompatActivity
 import com.nakolanie.powercycling.models.Device
+import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimalAsString
 import kotlinx.android.synthetic.main.activity_game_manage_device.*
 import kotlinx.android.synthetic.main.activity_game_manage_room.*
 
@@ -28,7 +29,7 @@ class Game_ManageDevice : GameAppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun refresh() {
-        manageDevice_textView_balance.text = GameContext.get().wallet.check().toString()
+        manageDevice_textView_balance.text = GameContext.get().wallet.checkAsString()
         manageDevice_textView_title.text = "${room.name} >> ${device.getName()}"
         manageDevice_textView_efficiencyClass.text = device.efficiencyClass.friendlyName
         manageDevice_textView_quality.text = device.quality.friendlyDescription

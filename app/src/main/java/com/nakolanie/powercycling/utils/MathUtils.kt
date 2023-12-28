@@ -10,7 +10,7 @@ abstract class MathUtils {
         }
 
         fun Float.roundToDecimalAsString(n: Int): String {
-            return String.format("%.${n}f", this)
+            return String.format("%.${n}f", this).replace(".", ",")
         }
     }
 }
