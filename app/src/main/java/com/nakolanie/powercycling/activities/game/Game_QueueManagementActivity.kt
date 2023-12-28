@@ -25,10 +25,10 @@ class Game_QueueManagementActivity : GameAppCompatActivity() {
         inflater =
             applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        addQueueToView()
+        refresh()
     }
 
-    private fun addQueueToView() {
+    private fun refresh() {
         queueManagement_linearLayout_bundleList.removeAllViews()
         queueManagement_linearLayout_roomsList.removeAllViews()
 
@@ -98,7 +98,10 @@ class Game_QueueManagementActivity : GameAppCompatActivity() {
             roomButton.setOnClickListener {
                 room.bookRoom(bundle)
                 queueService.removeFromQueue(bundle)
-                onBack(it)
+                if (queueService.getQueue().isEmpty()){
+                    onBack(it)
+                }
+                refresh()
             }
 
             roomButton.isEnabled =

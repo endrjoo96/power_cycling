@@ -9,7 +9,7 @@
 
 
 `________________________v0.1.0________________________`
- > replace devices names with devices enum list (with friendly names)
+ # replace devices names with devices enum list (with friendly names)
  # when clicked, only available rooms are shown in right panel
  # when room button is clicked, bundle is booked into the room
  > show current wallet balance in room and device management views
