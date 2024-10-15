@@ -5,12 +5,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import com.nakolanie.powercycling.R
-import com.nakolanie.powercycling.models.Room
 import com.nakolanie.powercycling.context.GameContext
 import com.nakolanie.powercycling.extensions.GameAppCompatActivity
+import com.nakolanie.powercycling.models.Room
 import com.nakolanie.powercycling.models.Wallet
-import com.nakolanie.powercycling.utils.MathUtils.Companion.roundToDecimalAsString
-import kotlinx.android.synthetic.main.activity_game_manage_room.*
+import kotlinx.android.synthetic.main.activity_game_manage_room.manageRoom_linearLayout_devicesList
+import kotlinx.android.synthetic.main.activity_game_manage_room.manageRoom_textView_balance
+import kotlinx.android.synthetic.main.activity_game_manage_room.manageRoom_textView_title
 
 class Game_ManageRoom : GameAppCompatActivity() {
     private lateinit var room: Room
@@ -56,7 +57,7 @@ class Game_ManageRoom : GameAppCompatActivity() {
         val newDeviceIntent = Intent(this, Game_ManageDevice::class.java)
         newDeviceIntent.putExtra("roomIndex", intent.extras!!.getInt("roomIndex"))
         newDeviceIntent.putExtra("deviceIndex", index)
-        startActivity(newDeviceIntent)
+        startActivityForResult(newDeviceIntent, 100)
     }
 
     private fun addButtonToBuyDevice() {
@@ -86,5 +87,10 @@ class Game_ManageRoom : GameAppCompatActivity() {
 
     private fun openNewItemModal(v: View) {
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        refresh()
     }
 }
