@@ -1,6 +1,7 @@
 [----------------------------------- TODO LIST -----------------------------------]
 
 [---------- LEGEND ----------]
+`_____version to release_____`
 - task waiting to complete
 > task implementation in progress
 > [task implemented, but not tested]
@@ -32,15 +33,16 @@
 
 `________________________v0.1.1________________________`
 
-- update to Java 17
-- modify devices names enum - use localization feature instead of hard-coded strings
-- implementing cost for upgrades
    - create service for cost calculations
        - should calculate new devices cost (lower than upgrading it from scratch)
        - should calculate rooms and devices upgrades costs
    - add cost to upgrading efficiency of devices
    - add cost to upgrading room capacity
    - add cost to adding devices
+- update to Java 17
+- modify devices names enum - use localization feature instead of hard-coded strings
+- użycie Android Resources do wyświetlania elementów tekstowych i kolorów
+- implementing cost for upgrades
 - dodać niezbędne dokumentacje
 - wyciągnąć parametry inicjalne do pliku konfiguracyjnego (.properties lub .yaml)
 
@@ -58,7 +60,7 @@
 
 `________________________v0.1.3________________________`
 - add brands of devices and maximum tiers of upgrading ability (lowend brands should have limit to upgrades)
-- make balance of economy, including brands of devices
+- make balance of economy
    - add option to dismiss group from queue (financial loss/maybe some sort of star rating for hotel?)
 - pokryć kod testami jednostkowymi
 
